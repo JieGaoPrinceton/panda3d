@@ -1,0 +1,69 @@
+/**
+ * PANDA 3D SOFTWARE
+ * Copyright (c) Carnegie Mellon University.  All rights reserved.
+ *
+ * All use of this software is subject to the terms of the revised BSD
+ * license.  You should have received a copy of this license along
+ * with this source code in a file named "LICENSE."
+ *
+ * @file reMutexSpinlockImpl.cxx
+ * @author rdb
+ * @date 2018-09-03
+ */
+
+#include "selectThreadImpl.h"
+
+#ifdef MUTEX_SPINLOCK
+
+#include "reMutexSpinlockImpl.h"
+#include "thread.h"
+
+#if defined(__i386__) || defined(__x86_64) || defined(_M_IX86) || defined(_M_X64)
+#include <emmintrin.h>
+#define PAUSE() _mm_pause()
+#elif defined(_WIN32)
+#define PAUSE() YieldProcessor()
+#else
+#define PAUSE()
+#endif
+
+/**
+ *
+ */
+void ReMutexSpinlockImpl::
+lock() {
+  Thread *current_thread = Thread::get_current_thread();
+  Thread *expected = nullptr;
+  while (!_locking_thread.compare_exchange_weak(expected, current_thread,
+                                                std::memory_order_acquire,
+                                                std::memory_order_relaxed)) {
+    if (expected == current_thread) {
+      break;
+    }
+    PAUSE();
+    expected = nullptr;
+  }
+  ++_counter;
+}
+
+/**
+ *
+ */
+bool ReMutexSpinlockImpl::
+try_lock() {
+  Thread *current_thread = Thread::get_current_thread();
+  Thread *expected = nullptr;
+  if (_locking_thread.compare_exchange_strong(expected, current_thread,
+                                              std::memory_order_acquire,
+                                              std::memory_order_relaxed) ||
+      expected == current_thread) {
+    ++_counter;
+    return true;
+  } else {
+    return false;
+  }
+}
+
+#undef PAUSE
+
+#endif  // MUTEX_SPINLOCK
