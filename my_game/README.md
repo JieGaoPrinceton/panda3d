@@ -1,10 +1,10 @@
 # 🎮 My Panda3D Game — Mac 开发模板
 
-> **当前版本：v0.4.0** · 2026-05-30
+> **当前版本：v0.5.0** · 2026-05-30
 
 基于 **Panda3D 1.11.0 + Python 3.13** 的 macOS 游戏开发起点模板。
 
-集成 **Bullet 物理引擎**、**跳跃系统**、**音效系统**、**鼠标拾取交互**、**轨道相机**、**中文字体**、**设置面板（调试 + 物理参数 Tab）**。
+集成 **Bullet 物理引擎**、**跳跃系统**、**音效系统**、**鼠标拾取交互**、**轨道相机**、**中文字体**、**设置面板（调试 + 物理参数 Tab）**、**经验值系统**。
 
 ---
 
@@ -24,19 +24,20 @@
 
 ```
 my_game/
-├── main.py                  # 游戏入口（~150 行，组合各子系统）
+├── main.py                  # 游戏入口（~170 行，组合各子系统）
 ├── config.prc               # Panda3D 运行时配置
 ├── README.md                # 本文档
 ├── src/                     # 子模块包
 │   ├── __init__.py
 │   ├── constants.py         # 全局常量 & 默认参数
 │   ├── physics.py           # Bullet 物理引擎管理
-│   ├── player.py            # 玩家控制（移动 + 跳跃 + 地面检测）
+│   ├── player.py            # 玩家控制（移动 + 跳跃 + 地面检测 + 经验值）
 │   ├── camera.py            # 轨道相机
 │   ├── audio.py             # 音效系统
-│   ├── picking.py           # 鼠标拾取交互
+│   ├── picking.py           # 鼠标拾取交互（含经验方块点击拾取）
+│   ├── collectibles.py      # 可拾取经验方块生成与管理
 │   ├── scene.py             # 场景构建（地面 + 障碍物 + 光照）
-│   ├── hud.py               # HUD 信息 + 中文字体
+│   ├── hud.py               # HUD 信息 + 中文字体 + 经验值显示
 │   └── settings_panel.py    # 设置面板（Tab 切换 + 滑块）
 └── assets/
     ├── models/              # .egg.pz 3D 模型 + maps/ 贴图
@@ -74,10 +75,11 @@ python3 main.py
 | `D` / `→` | 向右移动 |
 | `空格` | 跳跃（仅在地面时，Bullet 射线检测） |
 | `E` | 在玩家前方生成物理方块 |
-| `鼠标左键` | 拾取/选中场景中的方块（高亮显示） |
+| `V` | 切换视角：第三人称 → 第一人称 → 轨道相机 |
+| `鼠标左键` | 拾取/选中场景中的方块（高亮显示）/ 拾取经验方块 |
 | `Delete` / `X` | 删除选中的方块 |
-| `鼠标右键拖拽` | 旋转 3D 视角（轨道相机） |
-| `滚轮` | 缩放相机距离 |
+| `鼠标右键拖拽` | 旋转 3D 视角（所有相机模式） |
+| `滚轮` | 缩放相机距离（轨道 / 第三人称模式） |
 | `F1` | 打开设置面板 → 调试 Tab |
 | `F2` | 打开设置面板 → 物理参数 Tab |
 | `ESC` | 退出 |
@@ -118,12 +120,18 @@ python3 main.py
 - **删除方块**：按 `Delete` 或 `X` 键删除选中方块（从物理世界和场景图同时移除）
 - **点击空白取消**：点击非方块区域自动取消选中
 
-### 🎥 轨道相机 (`src/camera.py`)
+### 🎥 多模式相机 (`src/camera.py`)
 
-- 鼠标右键拖拽旋转视角（水平 heading + 垂直 pitch）
-- 滚轮缩放距离（5 ~ 80）
-- 俯仰角限制：-80°（俯视）~ 10°（仰视）
-- 相机始终跟随玩家
+**V 键循环切换**三种视角模式：
+
+| 模式 | 说明 |
+|------|------|
+| 第三人称（默认） | 相机在玩家身后上方，跟随玩家，鼠标右键旋转，滚轮调整距离（3~30） |
+| 第一人称 | 相机在玩家头部位置，鼠标右键控制视线方向 |
+| 轨道相机 | 自由旋转 + 滚轮缩放（5~80），俯仰角 -80°~10° |
+
+- 所有模式均支持鼠标右键拖拽旋转视角
+- HUD 右上角实时显示当前视角模式
 
 ### 🔧 设置面板 (`src/settings_panel.py`)
 
@@ -167,17 +175,27 @@ python3 main.py
 - 环境光（AmbientLight）：全局柔和照明
 - 方向光（DirectionalLight）：模拟太阳光
 
+### 💎 经验值系统 (`src/collectibles.py` + `src/player.py`)
+
+- **自动生成**：每 3 秒在场景随机位置生成一个经验方块（最多 15 个）
+- **随机经验值**：每个方块携带 1~10 点随机经验值
+- **颜色编码**：低经验偏绿色，高经验偏金色，一目了然
+- **自动拾取**：玩家靠近方块（距离 < 2.5）自动拾取
+- **点击拾取**：鼠标左键点击经验方块也可拾取
+- **浮动提示**：拾取时屏幕中央显示「+N EXP ✨」
+- **经验累计**：玩家经验值持续累加，HUD 实时显示
+
 ### 📊 HUD 信息 (`src/hud.py`)
 
 - 左上角：操作提示（中文）
-- 右上角：实时 FPS + 方块计数 + 地面/空中状态
+- 右上角：实时 FPS + 方块计数 + 地面/空中状态 + 经验值 + 宝石数量
 
 ---
 
 ## 模块架构说明
 
 ```
-main.py (MyGame : ShowBase)  ~150 行
+main.py (MyGame : ShowBase)  ~170 行
 │
 ├── 初始化子系统
 │   ├── PhysicsManager       src/physics.py
@@ -185,6 +203,7 @@ main.py (MyGame : ShowBase)  ~150 行
 │   ├── OrbitCamera          src/camera.py
 │   ├── AudioManager         src/audio.py
 │   ├── PickingManager       src/picking.py
+│   ├── CollectibleManager   src/collectibles.py
 │   ├── SceneBuilder         src/scene.py
 │   ├── HUD                  src/hud.py
 │   └── SettingsPanel        src/settings_panel.py
@@ -194,6 +213,7 @@ main.py (MyGame : ShowBase)  ~150 行
 └── _update() [Task]         主循环
     ├── player.update()      物理移动
     ├── physics.step()       Bullet 步进
+    ├── collectibles.update() 经验方块生成 + 自动拾取
     ├── orbit_cam.update()   相机跟随
     └── hud.update()         HUD 刷新
 ```
@@ -202,14 +222,15 @@ main.py (MyGame : ShowBase)  ~150 行
 
 | 模块 | 类 | 职责 |
 |------|-----|------|
-| `constants.py` | — | 全局常量、默认参数、字体路径 |
+| `constants.py` | — | 全局常量、默认参数、字体路径、经验方块参数 |
 | `physics.py` | `PhysicsManager` | BulletWorld、地面、方块生成/删除、调试渲染 |
-| `player.py` | `PlayerController` | 玩家物理体、WASD 移动、跳跃、地面检测 |
+| `player.py` | `PlayerController` | 玩家物理体、WASD 移动、跳跃、地面检测、经验值 |
 | `camera.py` | `OrbitCamera` | 鼠标右键旋转、滚轮缩放、球坐标计算 |
 | `audio.py` | `AudioManager` | 音效加载、播放、音量控制 |
-| `picking.py` | `PickingManager` | 射线拾取、选中高亮、删除方块 |
+| `picking.py` | `PickingManager` | 射线拾取、选中高亮、删除方块、经验方块点击拾取 |
+| `collectibles.py` | `CollectibleManager` | 经验方块随机生成、自动拾取、经验值管理 |
 | `scene.py` | `SceneBuilder` | 地面模型、静态障碍物、环境光 + 方向光 |
-| `hud.py` | `HUD` | 中文字体加载、FPS/方块/地面状态显示 |
+| `hud.py` | `HUD` | 中文字体加载、FPS/方块/地面状态/经验值显示 |
 | `settings_panel.py` | `SettingsPanel` | 设置按钮、Tab 切换、调试开关、物理滑块 |
 
 ---
@@ -343,6 +364,20 @@ body.setActive(True)
 ---
 
 ## 版本历史 (Changelog)
+
+### v0.5.0 — 2026-05-30
+
+**新增功能**
+
+- 💎 **经验值系统**：熊猫角色新增经验值属性，拾取方块可累积经验
+- 🎁 **可拾取经验方块**：场景中每 3 秒随机生成经验方块（最多 15 个）
+- 🎲 **随机经验值**：每个方块携带 1~10 点随机经验值，颜色编码（绿→金）
+- 🧲 **自动拾取**：玩家靠近方块（距离 < 2.5）自动拾取获得经验
+- 🖱️ **点击拾取**：鼠标左键点击经验方块也可拾取
+- ✨ **浮动提示**：拾取时屏幕中央显示「+N EXP ✨」（1.5 秒后消失）
+- 🎥 **多模式相机**：V 键循环切换第三人称 / 第一人称 / 轨道相机
+- 📊 HUD 新增经验值 + 宝石数量 + 视角模式显示
+- 📁 新增 `src/collectibles.py` 模块
 
 ### v0.4.0 — 2026-05-30
 

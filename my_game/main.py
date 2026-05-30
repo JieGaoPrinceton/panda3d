@@ -34,6 +34,7 @@ from src.picking import PickingManager
 from src.scene import SceneBuilder
 from src.hud import HUD
 from src.settings_panel import SettingsPanel
+from src.collectibles import CollectibleManager
 
 
 class MyGame(ShowBase):
@@ -44,7 +45,7 @@ class MyGame(ShowBase):
 
         # 窗口
         props = WindowProperties()
-        props.setTitle("My Panda3D Game — Bullet + Jump + Audio + Pick")
+        props.setTitle("My Panda3D Game — Bullet + Jump + Audio + Pick + EXP")
         self.win.requestProperties(props)
         self.setBackgroundColor(0.1, 0.1, 0.15, 1)
         self.disableMouse()
@@ -59,6 +60,14 @@ class MyGame(ShowBase):
         # 场景（地面模型 + 障碍物 + 光照）
         scene = SceneBuilder(self, self.physics)
         scene.build()
+
+        # 可拾取经验方块系统
+        self.collectibles = CollectibleManager(
+            self, self.physics, self.player, self.audio,
+        )
+
+        # 连接拾取回调：点击经验方块时通过 PickingManager 转发
+        self.picking.set_gem_collect_callback(self.collectibles.try_collect_by_name)
 
         # 初始相机
         self.camera.setPos(0, -20, 5)
@@ -98,12 +107,13 @@ class MyGame(ShowBase):
             self.accept(key, self._set_key, [action, True])
             self.accept(f"{key}-up", self._set_key, [action, False])
 
-        # 空格 = 跳跃, E = 生成方块
+        # 空格 = 跳跃, E = 生成方块, V = 切换视角
         self.accept("space", self._on_jump)
         self.accept("e", self._on_spawn)
+        self.accept("v", self.orbit_cam.cycle_mode)
 
-        # 鼠标左键 = 拾取, Delete/X = 删除
-        self.accept("mouse1", self.picking.on_pick)
+        # 鼠标左键 = 拾取（普通方块选中 / 经验方块收集）
+        self.accept("mouse1", self._on_pick)
         self.accept("delete", self.picking.delete_selected)
         self.accept("x", self.picking.delete_selected)
 
@@ -111,7 +121,7 @@ class MyGame(ShowBase):
         self.accept("f1", self.settings.show_debug_tab)
         self.accept("f2", self.settings.show_physics_tab)
 
-        # 轨道相机
+        # 相机控制
         self.accept("mouse3", self.orbit_cam.on_mouse_press)
         self.accept("mouse3-up", self.orbit_cam.on_mouse_release)
         self.accept("wheel_up", self.orbit_cam.on_wheel_up)
@@ -129,6 +139,14 @@ class MyGame(ShowBase):
         self.physics.spawn_box(pos)
         self.audio.play("spawn")
 
+    def _on_pick(self) -> None:
+        """鼠标左键：拾取普通方块或收集经验方块。"""
+        exp = self.picking.on_pick()
+        if exp is not None and exp > 0:
+            self.player.add_exp(exp)
+            self.hud.show_exp_gain(exp)
+            self.audio.play("pick")
+
     # ══════════════════════════════════════════
     # 主循环
     # ══════════════════════════════════════════
@@ -141,12 +159,25 @@ class MyGame(ShowBase):
         # 物理步进
         self.physics.step(dt)
 
+        # 可拾取方块更新（定时生成 + 自动拾取）
+        collected_exp = self.collectibles.update(dt)
+        if collected_exp is not None and collected_exp > 0:
+            self.player.add_exp(collected_exp)
+            self.hud.show_exp_gain(collected_exp)
+            self.audio.play("pick")
+
         # 轨道相机
         self.orbit_cam.update(self.player.physics_np, self.player.floater)
 
         # HUD
         fps = globalClock.get_average_frame_rate()  # type: ignore[name-defined]
-        self.hud.update(fps, self.physics.box_count, self.player.is_on_ground())
+        self.hud.update(
+            fps, self.physics.box_count, self.player.is_on_ground(),
+            exp=self.player.exp,
+            gem_count=self.collectibles.gem_count,
+            dt=dt,
+            cam_mode=self.orbit_cam.mode_name,
+        )
 
         return Task.cont
 
