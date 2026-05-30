@@ -1,10 +1,10 @@
 # 🎮 My Panda3D Game — Mac 开发模板
 
-> **当前版本：v0.6.0** · 2026-05-30
+> **当前版本：v0.7.0** · 2026-05-30
 
 基于 **Panda3D 1.11.0 + Python 3.13** 的 macOS 游戏开发起点模板。
 
-集成 **Bullet 物理引擎**、**阴影渲染**、**粒子特效**、**雾效**、**天空盒**、**Interval 动画**、**后处理滤镜**、**日夜循环**、**NPC/AI 巡逻**、**碰撞触发区域**、**存档系统**、**小地图**、**游戏状态机 FSM**、**经验值系统**。
+集成 **Bullet 物理引擎**、**阴影渲染**、**粒子特效**、**雾效**、**天空盒**、**Interval 动画**、**后处理滤镜**、**日夜循环**、**NPC/AI 巡逻**、**NPC 对话框**、**碰撞触发区域**、**存档系统**、**小地图**、**游戏状态机 FSM**、**经验值系统**、**ESC 退出确认**。
 
 ---
 
@@ -38,7 +38,7 @@ my_game/
 │   ├── collectibles.py      # 可拾取经验方块
 │   ├── scene.py             # 场景构建（地面 + 障碍物 + 光照）
 │   ├── hud.py               # HUD 信息 + 中文字体
-│   ├── settings_panel.py    # 设置面板（Tab 切换 + 滑块）
+│   ├── settings_panel.py    # 设置面板（调试/物理/快捷键 三Tab）
 │   ├── shadows.py           # ✨ 阴影渲染系统
 │   ├── particles_fx.py      # ✨ 粒子特效系统
 │   ├── fog.py               # ✨ 雾效系统
@@ -48,8 +48,10 @@ my_game/
 │   ├── day_night.py         # ✨ 日夜循环系统
 │   ├── collision.py         # ✨ Panda3D 原生碰撞系统
 │   ├── npc.py               # ✨ NPC / AI 巡逻系统
+│   ├── dialogue.py          # ✨ NPC 对话框
+│   ├── exit_dialog.py       # ✨ ESC 退出确认对话框
 │   ├── save_load.py         # ✨ 存档 / 读档系统
-│   ├── minimap.py           # ✨ 小地图系统
+│   ├── minimap.py           # ✨ 小地图系统（圆形标记）
 │   └── game_fsm.py          # ✨ 游戏状态机 FSM
 └── assets/
     ├── models/              # .egg.pz 3D 模型 + maps/ 贴图
@@ -84,7 +86,7 @@ python3 main.py
 | `Delete` / `X` | 删除选中方块 |
 | `鼠标右键拖拽` | 旋转 3D 视角 |
 | `滚轮` | 缩放相机距离 |
-| `ESC` | 退出 |
+| `ESC` | 退出确认对话框（存档/退出/继续） |
 
 ### 新增快捷键 (v0.6.0)
 
@@ -197,7 +199,7 @@ python3 main.py
 
 - **俯视相机**：独立正交相机
 - **右下角显示**：`DisplayRegion` 独立渲染区域
-- **玩家标记**：红色标记点
+- **玩家标记**：红色圆形标记（程序化几何体 triangle fan）
 - **跟随玩家**：相机自动跟随
 - **M 键**：切换显示
 
@@ -244,6 +246,21 @@ python3 main.py
 
 - **调试 Tab**：碰撞体线框/包围盒/法线
 - **物理参数 Tab**：11 个滑块实时调节
+- **快捷键 Tab**：全部 25 个快捷键一览
+
+### 💬 NPC 对话框 (`src/dialogue.py`) ✨ NEW
+
+- **触发条件**：NPC 进入追逐状态时自动弹出
+- **随机中文**：每次生成 20 个随机中文字符
+- **自动隐藏**：4 秒后自动消失
+- **底部显示**：屏幕最下方对话框
+
+### 🚪 ESC 退出确认 (`src/exit_dialog.py`) ✨ NEW
+
+- **半透明遮罩**：全屏暗色遮罩
+- **三个选项**：💾 存档并退出 / 🚪 直接退出 / ▶ 继续游戏
+- **自动暂停**：弹出时暂停游戏，关闭时恢复
+- **再按 ESC**：等同于"继续游戏"
 
 ---
 
@@ -254,14 +271,14 @@ main.py (MyGame : ShowBase)
 │
 ├── 核心系统
 │   ├── PhysicsManager       src/physics.py
-│   ├── PlayerController     src/player.py
+│   ├── PlayerController     src/player.py      (WASD 跟随相机朝向)
 │   ├── OrbitCamera          src/camera.py
 │   ├── AudioManager         src/audio.py
 │   ├── PickingManager       src/picking.py
 │   ├── CollectibleManager   src/collectibles.py
 │   ├── SceneBuilder         src/scene.py
 │   ├── HUD                  src/hud.py
-│   └── SettingsPanel        src/settings_panel.py
+│   └── SettingsPanel        src/settings_panel.py  (3 Tab: 调试/物理/快捷键)
 │
 ├── 渲染增强 (v0.6.0+)
 │   ├── ShadowManager        src/shadows.py
@@ -274,6 +291,8 @@ main.py (MyGame : ShowBase)
 │   ├── DayNightCycle        src/day_night.py
 │   ├── CollisionManager     src/collision.py
 │   ├── NPCManager           src/npc.py
+│   ├── DialogueBox          src/dialogue.py     (v0.7.0)
+│   ├── ExitDialog           src/exit_dialog.py  (v0.7.0)
 │   ├── SaveLoadManager      src/save_load.py
 │   ├── MiniMap              src/minimap.py
 │   └── GameFSM              src/game_fsm.py
@@ -281,11 +300,12 @@ main.py (MyGame : ShowBase)
 ├── _setup_input()           键盘 + 鼠标事件
 │
 └── _update() [Task]         主循环
-    ├── player.update()      物理移动
+    ├── player.update()      物理移动 (相机朝向旋转)
     ├── physics.step()       Bullet 步进
     ├── collectibles.update() 经验方块
     ├── collision.update()   原生碰撞检测
-    ├── npc_mgr.update()     NPC AI
+    ├── npc_mgr.update()     NPC AI + 对话触发
+    ├── dialogue.update()    对话框倒计时
     ├── day_night.update()   日夜循环
     ├── minimap.update()     小地图
     ├── orbit_cam.update()   相机跟随
@@ -327,6 +347,22 @@ main.py (MyGame : ShowBase)
 ---
 
 ## 版本历史 (Changelog)
+
+### v0.7.0 — 2026-05-30
+
+**新增功能**
+
+- 💬 **NPC 对话框**：遇到 NPC 时底部弹出对话框，随机生成 20 个中文字，4 秒自动消失
+- 🚪 **ESC 退出确认**：按 ESC 弹出确认对话框（存档并退出 / 直接退出 / 继续游戏）
+- ⌨ **快捷键标签页**：设置面板新增第三个 Tab，列出全部 25 个快捷键
+- 🔴 **小地图圆形标记**：玩家位置改为红色圆形（程序化几何体 triangle fan）
+
+**修复 & 改进**
+
+- 🔧 **WASD 方向修复**：基于相机前方/右方向量正确推导旋转矩阵，前后左右方向准确
+- 🔧 **模型朝向修复**：熊猫模型面朝移动方向（+180° 偏移适配模型默认朝向）
+- 🔧 **相机跟随**：切换视角模式后 WASD 自动跟随新坐标系
+- 📝 **代码重构**：main.py / player.py / camera.py / physics.py / scene.py / constants.py 增加详细注释
 
 ### v0.6.0 — 2026-05-30
 

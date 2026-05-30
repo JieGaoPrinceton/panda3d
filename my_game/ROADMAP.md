@@ -2,13 +2,13 @@
 
 > **基于 Panda3D 引擎能力 vs my_game 现有实现的差距分析**
 >
-> 最后更新：2026-05-30 · **v0.6.0**
+> 最后更新：2026-05-30 · **v0.7.0**
 
 ---
 
 ## 📊 功能对比矩阵
 
-### ✅ 已实现功能（my_game v0.6.0）
+### ✅ 已实现功能（my_game v0.7.0）
 
 | 功能 | 模块 | 引擎对应 | 版本 |
 |------|------|---------|------|
@@ -35,6 +35,10 @@
 | **存档 / 读档** | `src/save_load.py` | Python `json` | **v0.6.0** |
 | **小地图** | `src/minimap.py` | `Camera` + `DisplayRegion` | **v0.6.0** |
 | **游戏状态机 FSM** | `src/game_fsm.py` | `direct.fsm.FSM` | **v0.6.0** |
+| **NPC 对话框** | `src/dialogue.py` | `DirectGUI` + 随机中文 | **v0.7.0** |
+| **ESC 退出确认** | `src/exit_dialog.py` | `DirectGUI` 模态对话框 | **v0.7.0** |
+| **快捷键标签页** | `src/settings_panel.py` | `DirectGUI` 三 Tab 面板 | **v0.7.0** |
+| **WASD 相机跟随** | `src/player.py` | 2D 旋转矩阵 | **v0.7.0** |
 
 ### ❌ 尚未实现功能（引擎支持但 my_game 未 demo）
 
@@ -172,7 +176,7 @@
 
 - ✅ 独立正交相机俯视渲染
 - ✅ 独立 `DisplayRegion` 右下角显示
-- ✅ 玩家位置标记（红色方块）
+- ✅ 玩家位置标记（红色圆形，程序化几何体 triangle fan）
 - ✅ M 键切换小地图显示
 
 ### ✅ Phase 14 — 游戏状态机 `src/game_fsm.py` ⭐⭐ **已完成**
@@ -182,6 +186,29 @@
 - ✅ 主菜单界面（DirectGUI）
 - ✅ 暂停菜单（P 键）
 - ✅ 游戏结束画面
+
+### ✅ Phase 15 — NPC 对话框 `src/dialogue.py` ⭐ **已完成** (v0.7.0)
+> **引擎能力**：`DirectGUI` + Python `random`
+
+- ✅ NPC 进入追逐状态时触发对话
+- ✅ 随机生成 20 个中文字符
+- ✅ 屏幕底部对话框（`DirectFrame` + `OnscreenText`）
+- ✅ 4 秒自动隐藏
+
+### ✅ Phase 16 — ESC 退出确认 `src/exit_dialog.py` ⭐ **已完成** (v0.7.0)
+> **引擎能力**：`DirectGUI` 模态对话框
+
+- ✅ 半透明全屏遮罩
+- ✅ 三个选项：存档并退出 / 直接退出 / 继续游戏
+- ✅ 弹出时自动暂停，关闭时自动恢复
+- ✅ 再按 ESC 等同于"继续游戏"
+
+### ✅ Phase 17 — 快捷键标签页 + WASD 修复 ⭐ **已完成** (v0.7.0)
+
+- ✅ 设置面板新增"⌨ 快捷键"Tab（25 个快捷键一览）
+- ✅ WASD 方向基于相机前方/右方向量正确旋转
+- ✅ 模型朝向修复（+180° 偏移适配熊猫模型）
+- ✅ 切换视角后方向自动跟随
 
 ---
 
@@ -224,6 +251,9 @@ Phase 9  ─ 水面效果        ██████████████     
 | 12 | `src/save_load.py` | `main.py`, `src/settings_panel.py` |
 | 13 | `src/minimap.py` | `main.py` |
 | 14 | `src/game_fsm.py` | `main.py` |
+| 15 | `src/dialogue.py` | `src/npc.py`, `main.py` |
+| 16 | `src/exit_dialog.py` | `main.py` |
+| 17 | — | `src/settings_panel.py`, `src/player.py`, `src/minimap.py` |
 
 ---
 
@@ -232,5 +262,6 @@ Phase 9  ─ 水面效果        ██████████████     
 | 版本 | Phase | 里程碑 | 状态 |
 |------|-------|--------|------|
 | v0.6.0 | 1–7, 10–14 | 阴影 · 粒子 · 雾效 · 天空盒 · 动画 · 碰撞 · 后处理 · 日夜 · NPC · 存档 · 小地图 · FSM | ✅ 已发布 |
-| v0.7.0 | 8 | 地形系统（需要高度图资源） | 📋 计划中 |
-| v0.8.0 | 9 | 水面效果（需要 GLSL Shader） | 📋 计划中 |
+| v0.7.0 | 15–17 | NPC 对话框 · ESC 退出确认 · 快捷键 Tab · WASD 修复 · 代码重构 | ✅ 已发布 |
+| v0.8.0 | 8 | 地形系统（需要高度图资源） | 📋 计划中 |
+| v0.9.0 | 9 | 水面效果（需要 GLSL Shader） | 📋 计划中 |
