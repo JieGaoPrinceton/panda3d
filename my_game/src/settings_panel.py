@@ -1,5 +1,5 @@
 """
-src/settings_panel.py — 右上角设置按钮 + Tab 面板（调试 / 物理参数）
+src/settings_panel.py — 右上角设置按钮 + Tab 面板（调试 / 物理参数 / 快捷键）
 """
 
 from __future__ import annotations
@@ -78,22 +78,23 @@ class SettingsPanel:
         self._build_tabs()
         self._build_debug_tab()
         self._build_physics_tab()
+        self._build_hotkeys_tab()
         self._switch_tab("physics")
 
-    # ── Tab 按钮 ──
+    # ── Tab 按钮（3 个标签：调试 / 物理参数 / 快捷键） ──
     def _build_tabs(self) -> None:
         tab_y = 0.48
-        tab_w = 0.42
+        tab_w = 0.28  # 三等分宽度
 
         self._tab_btn_debug = DirectButton(
             text="🔍 调试",
-            text_scale=0.045,
+            text_scale=0.04,
             text_fg=(1, 1, 1, 1),
             frameColor=(0.25, 0.25, 0.4, 1),
             relief="raised",
             borderWidth=(0.003, 0.003),
             frameSize=(-tab_w / 2, tab_w / 2, -0.03, 0.04),
-            pos=(-tab_w / 2 + 0.01, 0, tab_y),
+            pos=(-tab_w, 0, tab_y),
             parent=self._panel,
             command=self._switch_tab,
             extraArgs=["debug"],
@@ -101,17 +102,32 @@ class SettingsPanel:
         )
 
         self._tab_btn_physics = DirectButton(
-            text="⚡ 物理参数",
-            text_scale=0.045,
+            text="⚡ 物理",
+            text_scale=0.04,
             text_fg=(1, 1, 1, 1),
             frameColor=(0.15, 0.15, 0.25, 1),
             relief="raised",
             borderWidth=(0.003, 0.003),
             frameSize=(-tab_w / 2, tab_w / 2, -0.03, 0.04),
-            pos=(tab_w / 2 - 0.01, 0, tab_y),
+            pos=(0, 0, tab_y),
             parent=self._panel,
             command=self._switch_tab,
             extraArgs=["physics"],
+            **self._font_kwargs,
+        )
+
+        self._tab_btn_hotkeys = DirectButton(
+            text="⌨ 快捷键",
+            text_scale=0.04,
+            text_fg=(1, 1, 1, 1),
+            frameColor=(0.15, 0.15, 0.25, 1),
+            relief="raised",
+            borderWidth=(0.003, 0.003),
+            frameSize=(-tab_w / 2, tab_w / 2, -0.03, 0.04),
+            pos=(tab_w, 0, tab_y),
+            parent=self._panel,
+            command=self._switch_tab,
+            extraArgs=["hotkeys"],
             **self._font_kwargs,
         )
 
@@ -277,22 +293,114 @@ class SettingsPanel:
             **self._font_kwargs,
         )
 
+    # ── 快捷键 Tab ──
+    def _build_hotkeys_tab(self) -> None:
+        """构建快捷键说明标签页，列出所有游戏操作的按键绑定。"""
+        self._hotkeys_frame = DirectFrame(
+            frameColor=(0, 0, 0, 0),
+            frameSize=(-0.42, 0.42, -0.95, 0.42),
+            pos=(0, 0, 0),
+            parent=self._panel,
+        )
+        self._hotkeys_frame.hide()
+
+        y = 0.32
+        DirectLabel(
+            text="快捷键一览",
+            text_scale=0.055,
+            text_fg=(1, 0.9, 0.3, 1),
+            text_shadow=(0, 0, 0, 0.8),
+            frameColor=(0, 0, 0, 0),
+            pos=(0, 0, y),
+            parent=self._hotkeys_frame,
+            **self._font_kwargs,
+        )
+
+        # ── 快捷键列表：(按键, 说明) ──
+        hotkey_entries = [
+            # 移动
+            ("W / ↑",       "向前移动"),
+            ("S / ↓",       "向后移动"),
+            ("A / ←",       "向左移动"),
+            ("D / →",       "向右移动"),
+            ("Space",       "跳跃"),
+            # 操作
+            ("E",           "生成方块"),
+            ("鼠标左键",     "拾取 / 收集"),
+            ("X / Delete",  "删除选中方块"),
+            ("V",           "切换视角模式"),
+            ("鼠标右键拖拽",  "旋转相机"),
+            ("滚轮",        "缩放距离 / FOV"),
+            # 功能
+            ("P",           "暂停 / 继续"),
+            ("M",           "小地图开关"),
+            ("N",           "NPC 开关"),
+            ("T",           "加速时间"),
+            # 系统
+            ("F1",          "调试面板"),
+            ("F2",          "物理参数面板"),
+            ("F3",          "阴影开关"),
+            ("F4",          "雾效开关"),
+            ("F5",          "快速保存"),
+            ("F6",          "天空盒开关"),
+            ("F7",          "Bloom 开关"),
+            ("F8",          "日夜循环开关"),
+            ("F9",          "快速加载"),
+            ("Esc",         "退出游戏"),
+        ]
+
+        row_h = 0.048  # 每行高度
+        y -= 0.06      # 标题下方间距
+
+        for key_text, desc_text in hotkey_entries:
+            y -= row_h
+            # 按键名（左侧，高亮色）
+            DirectLabel(
+                text=key_text,
+                text_scale=0.034,
+                text_fg=(0.5, 0.9, 1.0, 1),
+                text_align=TextNode.ALeft,
+                frameColor=(0, 0, 0, 0),
+                pos=(-0.38, 0, y),
+                parent=self._hotkeys_frame,
+                **self._font_kwargs,
+            )
+            # 功能说明（右侧）
+            DirectLabel(
+                text=desc_text,
+                text_scale=0.034,
+                text_fg=(0.85, 0.85, 0.85, 1),
+                text_align=TextNode.ALeft,
+                frameColor=(0, 0, 0, 0),
+                pos=(0.0, 0, y),
+                parent=self._hotkeys_frame,
+                **self._font_kwargs,
+            )
+
     # ── Tab 切换 ──
     def _switch_tab(self, tab_name: str) -> None:
         self._current_tab = tab_name
         active = (0.25, 0.25, 0.45, 1)
         inactive = (0.12, 0.12, 0.2, 1)
 
+        # 先全部隐藏 + 置灰
+        self._debug_frame.hide()
+        self._physics_frame.hide()
+        self._hotkeys_frame.hide()
+        self._tab_btn_debug["frameColor"] = inactive
+        self._tab_btn_physics["frameColor"] = inactive
+        self._tab_btn_hotkeys["frameColor"] = inactive
+
+        # 激活选中的标签
         if tab_name == "debug":
             self._debug_frame.show()
-            self._physics_frame.hide()
             self._tab_btn_debug["frameColor"] = active
-            self._tab_btn_physics["frameColor"] = inactive
-        else:
-            self._debug_frame.hide()
+        elif tab_name == "physics":
             self._physics_frame.show()
-            self._tab_btn_debug["frameColor"] = inactive
             self._tab_btn_physics["frameColor"] = active
+        elif tab_name == "hotkeys":
+            self._hotkeys_frame.show()
+            self._tab_btn_hotkeys["frameColor"] = active
 
     # ── 展开/收起 ──
     def toggle(self) -> None:
@@ -315,6 +423,12 @@ class SettingsPanel:
         if not self._panel_visible:
             self.toggle()
         self._switch_tab("physics")
+
+    def show_hotkeys_tab(self) -> None:
+        """快捷键标签页。"""
+        if not self._panel_visible:
+            self.toggle()
+        self._switch_tab("hotkeys")
 
     # ── 调试开关 ──
     def _set_btn_on(self, btn) -> None:
