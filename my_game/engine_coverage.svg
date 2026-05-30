@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" font-family="'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="barGreen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2ea043"/>
+      <stop offset="100%" stop-color="#3fb950"/>
+    </linearGradient>
+    <linearGradient id="barGray" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#21262d"/>
+      <stop offset="100%" stop-color="#30363d"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="900" height="720" rx="12" fill="url(#bgGrad)"/>
+
+  <!-- 标题 -->
+  <text x="450" y="45" text-anchor="middle" fill="#f0f6fc" font-size="22" font-weight="bold">🎮 Panda3D 引擎功能覆盖率 — my_game v0.7.0</text>
+  <text x="450" y="70" text-anchor="middle" fill="#8b949e" font-size="13">16 大类 · 95 项功能 · 已实现 50 项 · 总覆盖率 55%</text>
+
+  <!-- 图例 -->
+  <rect x="620" y="85" width="14" height="14" rx="3" fill="url(#barGreen)"/>
+  <text x="640" y="97" fill="#3fb950" font-size="12">已实现</text>
+  <rect x="700" y="85" width="14" height="14" rx="3" fill="url(#barGray)"/>
+  <text x="720" y="97" fill="#8b949e" font-size="12">未实现</text>
+
+  <!-- 数据行 -->
+  <!-- Row 1: 场景图 & 渲染 8/13 = 62% -->
+  <g transform="translate(30, 120)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">场景图 &amp; 渲染管线</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="246" height="18" rx="4" fill="url(#barGreen)"/>
+    <text x="630" y="16" fill="#3fb950" font-size="12" font-weight="bold">62%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">8 / 13</text>
+  </g>
+
+  <!-- Row 2: 光照 & 阴影 3/8 = 38% -->
+  <g transform="translate(30, 155)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">光照 &amp; 阴影</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="150" height="18" rx="4" fill="#d29922"/>
+    <text x="630" y="16" fill="#d29922" font-size="12" font-weight="bold">38%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">3 / 8</text>
+  </g>
+
+  <!-- Row 3: 动画系统 2/5 = 40% -->
+  <g transform="translate(30, 190)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">动画系统</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="160" height="18" rx="4" fill="#d29922"/>
+    <text x="630" y="16" fill="#d29922" font-size="12" font-weight="bold">40%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">2 / 5</text>
+  </g>
+
+  <!-- Row 4: 物理引擎 4/10 = 40% -->
+  <g transform="translate(30, 225)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">物理引擎 (Bullet)</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="160" height="18" rx="4" fill="#d29922"/>
+    <text x="630" y="16" fill="#d29922" font-size="12" font-weight="bold">40%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">4 / 10</text>
+  </g>
+
+  <!-- Row 5: 碰撞检测 3/5 = 60% -->
+  <g transform="translate(30, 260)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">碰撞检测</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="240" height="18" rx="4" fill="url(#barGreen)"/>
+    <text x="630" y="16" fill="#3fb950" font-size="12" font-weight="bold">60%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">3 / 5</text>
+  </g>
+
+  <!-- Row 6: GUI 系统 5/9 = 56% -->
+  <g transform="translate(30, 295)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">GUI 系统 (DirectGUI)</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="222" height="18" rx="4" fill="url(#barGreen)"/>
+    <text x="630" y="16" fill="#3fb950" font-size="12" font-weight="bold">56%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">5 / 9</text>
+  </g>
+
+  <!-- Row 7: 音频系统 2/5 = 40% -->
+  <g transform="translate(30, 330)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">音频系统</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="160" height="18" rx="4" fill="#d29922"/>
+    <text x="630" y="16" fill="#d29922" font-size="12" font-weight="bold">40%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">2 / 5</text>
+  </g>
+
+  <!-- Row 8: 输入系统 2/5 = 40% -->
+  <g transform="translate(30, 365)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">输入系统</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="160" height="18" rx="4" fill="#d29922"/>
+    <text x="630" y="16" fill="#d29922" font-size="12" font-weight="bold">40%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">2 / 5</text>
+  </g>
+
+  <!-- Row 9: 粒子系统 3/4 = 75% -->
+  <g transform="translate(30, 400)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">粒子系统</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="300" height="18" rx="4" fill="url(#barGreen)"/>
+    <text x="630" y="16" fill="#3fb950" font-size="12" font-weight="bold">75%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">3 / 4</text>
+  </g>
+
+  <!-- Row 10: 后处理滤镜 5/7 = 71% -->
+  <g transform="translate(30, 435)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">后处理 &amp; 滤镜</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="286" height="18" rx="4" fill="url(#barGreen)"/>
+    <text x="630" y="16" fill="#3fb950" font-size="12" font-weight="bold">71%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">5 / 7</text>
+  </g>
+
+  <!-- Row 11: 地形 & 环境 1/4 = 25% -->
+  <g transform="translate(30, 470)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">地形 &amp; 环境</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="100" height="18" rx="4" fill="#f85149"/>
+    <text x="630" y="16" fill="#f85149" font-size="12" font-weight="bold">25%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">1 / 4</text>
+  </g>
+
+  <!-- Row 12: 任务 & 事件 3/3 = 100% -->
+  <g transform="translate(30, 505)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">任务 &amp; 事件</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="#238636"/>
+    <text x="630" y="16" fill="#238636" font-size="12" font-weight="bold">100%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">3 / 3</text>
+  </g>
+
+  <!-- Row 13: 文件 & 资源 4/6 = 67% -->
+  <g transform="translate(30, 540)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">文件 &amp; 资源</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="267" height="18" rx="4" fill="url(#barGreen)"/>
+    <text x="630" y="16" fill="#3fb950" font-size="12" font-weight="bold">67%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">4 / 6</text>
+  </g>
+
+  <!-- Row 14: 文本 & 字体 3/4 = 75% -->
+  <g transform="translate(30, 575)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">文本 &amp; 字体</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="300" height="18" rx="4" fill="url(#barGreen)"/>
+    <text x="630" y="16" fill="#3fb950" font-size="12" font-weight="bold">75%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">3 / 4</text>
+  </g>
+
+  <!-- Row 15: 网络 & 分布式 0/3 = 0% -->
+  <g transform="translate(30, 610)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">网络 &amp; 分布式</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <text x="630" y="16" fill="#f85149" font-size="12" font-weight="bold">0%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">0 / 3</text>
+  </g>
+
+  <!-- Row 16: 窗口 & 显示 2/4 = 50% -->
+  <g transform="translate(30, 645)">
+    <text x="0" y="15" fill="#c9d1d9" font-size="13" font-weight="500">窗口 &amp; 显示</text>
+    <rect x="220" y="2" width="400" height="18" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+    <rect x="220" y="2" width="200" height="18" rx="4" fill="url(#barGreen)"/>
+    <text x="630" y="16" fill="#3fb950" font-size="12" font-weight="bold">50%</text>
+    <text x="700" y="16" fill="#8b949e" font-size="11">2 / 4</text>
+  </g>
+
+  <!-- 底部总计 -->
+  <line x1="30" y1="680" x2="870" y2="680" stroke="#30363d" stroke-width="1"/>
+  <text x="30" y="705" fill="#f0f6fc" font-size="15" font-weight="bold">总计</text>
+  <rect x="220" y="690" width="400" height="20" rx="4" fill="url(#barGray)" filter="url(#shadow)"/>
+  <rect x="220" y="690" width="220" height="20" rx="4" fill="#1f6feb"/>
+  <text x="630" y="706" fill="#58a6ff" font-size="14" font-weight="bold">55%</text>
+  <text x="700" y="706" fill="#c9d1d9" font-size="13" font-weight="bold">50 / 95</text>
+</svg>

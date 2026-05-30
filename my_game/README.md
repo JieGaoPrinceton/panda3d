@@ -316,33 +316,27 @@ main.py (MyGame : ShowBase)
 
 ## Panda3D 引擎功能覆盖
 
-详见 [ROADMAP.md](ROADMAP.md) 完整对比分析。
+> 详见 [ROADMAP.md](ROADMAP.md) 完整对比分析（16 大类 95 项功能）。
+> 统计：✅ 已实现 **42 项** · ❌ 未实现 **35 项** · 覆盖率 **55%**
 
-| 引擎功能 | 状态 | 模块 |
-|---------|------|------|
-| Bullet 物理 | ✅ 已实现 | `physics.py` |
-| Actor 骨骼动画 | ✅ 已实现 | `player.py` |
-| 光照系统 | ✅ 已实现 | `scene.py` |
-| 音效系统 | ✅ 已实现 | `audio.py` |
-| DirectGUI | ✅ 已实现 | `settings_panel.py` |
-| 射线拾取 | ✅ 已实现 | `picking.py` |
-| 阴影渲染 | ✅ 已实现 | `shadows.py` |
-| 粒子特效 | ✅ 已实现 | `particles_fx.py` |
-| 雾效 | ✅ 已实现 | `fog.py` |
-| 天空盒 | ✅ 已实现 | `skybox.py` |
-| Interval 动画 | ✅ 已实现 | `animations.py` |
-| 后处理滤镜 | ✅ 已实现 | `post_processing.py` |
-| 日夜循环 | ✅ 已实现 | `day_night.py` |
-| 原生碰撞系统 | ✅ 已实现 | `collision.py` |
-| NPC / AI | ✅ 已实现 | `npc.py` |
-| 存档系统 | ✅ 已实现 | `save_load.py` |
-| 小地图 | ✅ 已实现 | `minimap.py` |
-| 游戏状态机 FSM | ✅ 已实现 | `game_fsm.py` |
-| Shader 地形 | 📋 计划中 | — |
-| 水面效果 | 📋 计划中 | — |
-| 法线贴图 | 📋 计划中 | — |
-| 卡通渲染 | 📋 计划中 | — |
-| 网络多人 | 📋 计划中 | — |
+| 子系统 | 已实现 | 未实现 | 覆盖率 | 代表模块 |
+|--------|-------|--------|--------|---------|
+| 场景图 & 渲染 | 8/13 | 5 | 62% | `scene.py`, `skybox.py`, `minimap.py` |
+| 光照 & 阴影 | 3/8 | 5 | 38% | `scene.py`, `shadows.py` |
+| 动画系统 | 2/5 | 3 | 40% | `player.py`, `animations.py` |
+| 物理引擎 | 4/10 | 6 | 40% | `physics.py`, `player.py` |
+| 碰撞检测 | 3/5 | 2 | 60% | `collision.py` |
+| GUI 系统 | 5/9 | 4 | 56% | `settings_panel.py`, `hud.py`, `exit_dialog.py` |
+| 音频系统 | 2/5 | 3 | 40% | `audio.py` |
+| 输入系统 | 2/5 | 3 | 40% | `main.py`, `camera.py` |
+| 粒子系统 | 3/4 | 1 | 75% | `particles_fx.py` |
+| 后处理滤镜 | 5/7 | 2 | 71% | `post_processing.py` |
+| 地形 & 环境 | 1/4 | 3 | 25% | `skybox.py` |
+| 任务 & 事件 | 3/3 | 0 | 100% | `main.py`, `game_fsm.py` |
+| 文件 & 资源 | 4/6 | 2 | 67% | `main.py`, `scene.py` |
+| 文本 & 字体 | 3/4 | 1 | 75% | `hud.py`, `dialogue.py` |
+| 网络 & 分布式 | 0/3 | 3 | 0% | — |
+| 窗口 & 显示 | 2/4 | 2 | 50% | `main.py` |
 
 ---
 

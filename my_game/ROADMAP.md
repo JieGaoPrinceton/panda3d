@@ -6,58 +6,185 @@
 
 ---
 
-## 📊 功能对比矩阵
+## 📊 Panda3D 引擎功能全表 vs my_game 实现状态
 
-### ✅ 已实现功能（my_game v0.7.0）
+> 以下按引擎子系统分类，覆盖 Panda3D 1.11.0 的**全部核心功能模块**。
+> 统计：✅ 已实现 25 项 · ❌ 未实现 35 项 · 覆盖率 **42%**
 
-| 功能 | 模块 | 引擎对应 | 版本 |
-|------|------|---------|------|
-| Bullet 物理引擎 | `src/physics.py` | `panda3d.bullet` | v0.2.0 |
-| 玩家移动 + 跳跃 | `src/player.py` | `BulletRigidBodyNode` | v0.1.0 |
-| 轨道/第一/第三人称相机 | `src/camera.py` | `Camera` + 手动计算 | v0.2.0 |
-| 音效系统 | `src/audio.py` | `AudioManager` + OpenAL | v0.3.0 |
-| 鼠标射线拾取 | `src/picking.py` | `Bullet.rayTestClosest` | v0.3.0 |
-| 经验值 + 可拾取物 | `src/collectibles.py` | 自定义逻辑 | v0.5.0 |
-| 场景 + 光照 | `src/scene.py` | `AmbientLight` + `DirectionalLight` | v0.2.0 |
-| HUD + 中文字体 | `src/hud.py` | `OnscreenText` | v0.2.0 |
-| 设置面板 | `src/settings_panel.py` | `DirectGUI` | v0.2.0 |
-| Actor 骨骼动画 | `src/player.py` | `direct.actor.Actor` | v0.1.0 |
-| 物理调试渲染 | `src/physics.py` | `BulletDebugNode` | v0.2.0 |
-| **阴影渲染** | `src/shadows.py` | `DirectionalLight.setShadowCaster()` | **v0.6.0** |
-| **粒子特效** | `src/particles_fx.py` | `direct.particles.ParticleEffect` | **v0.6.0** |
-| **雾效** | `src/fog.py` | `panda3d.core.Fog` | **v0.6.0** |
-| **天空盒** | `src/skybox.py` | `GeomVertexData` + `CompassEffect` | **v0.6.0** |
-| **Interval 动画** | `src/animations.py` | `direct.interval.*` | **v0.6.0** |
-| **原生碰撞系统** | `src/collision.py` | `CollisionTraverser` + `CollisionHandlerEvent` | **v0.6.0** |
-| **后处理滤镜** | `src/post_processing.py` | `direct.filter.CommonFilters` | **v0.6.0** |
-| **日夜循环** | `src/day_night.py` | 动态光照 + 颜色插值 | **v0.6.0** |
-| **NPC / AI 巡逻** | `src/npc.py` | `Task` + 路径点 + 状态机 | **v0.6.0** |
-| **存档 / 读档** | `src/save_load.py` | Python `json` | **v0.6.0** |
-| **小地图** | `src/minimap.py` | `Camera` + `DisplayRegion` | **v0.6.0** |
-| **游戏状态机 FSM** | `src/game_fsm.py` | `direct.fsm.FSM` | **v0.6.0** |
-| **NPC 对话框** | `src/dialogue.py` | `DirectGUI` + 随机中文 | **v0.7.0** |
-| **ESC 退出确认** | `src/exit_dialog.py` | `DirectGUI` 模态对话框 | **v0.7.0** |
-| **快捷键标签页** | `src/settings_panel.py` | `DirectGUI` 三 Tab 面板 | **v0.7.0** |
-| **WASD 相机跟随** | `src/player.py` | 2D 旋转矩阵 | **v0.7.0** |
+### 一、场景图 & 渲染管线 (`panda3d.core` · `panda/src/pgraph`)
 
-### ❌ 尚未实现功能（引擎支持但 my_game 未 demo）
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 1 | 场景图节点管理 | `NodePath`, `PandaNode`, `reparentTo()` | ✅ 已实现 | 全部模块 | v0.1.0 |
+| 2 | 模型加载 (.egg/.bam/.gltf) | `loader.loadModel()` | ✅ 已实现 | `scene.py`, `player.py` | v0.1.0 |
+| 3 | 纹理 & 贴图 | `TexturePool`, `setTexture()` | ✅ 已实现 | `scene.py` | v0.1.0 |
+| 4 | 渲染属性 (RenderAttrib) | `TransparencyAttrib`, `ColorAttrib`, `CullFaceAttrib` | ✅ 部分 | `skybox.py`, `minimap.py` | v0.6.0 |
+| 5 | Shader 自动生成 | `render.setShaderAuto()` | ✅ 已实现 | `shadows.py` | v0.6.0 |
+| 6 | 自定义 GLSL Shader | `Shader.load()`, `Shader.make()` | ❌ 未实现 | — | — |
+| 7 | 渲染到纹理 (RTT) | `makeTextureBuffer()`, `GraphicsOutput` | ❌ 未实现 | — | — |
+| 8 | 多渲染通道 (Multi-pass) | `GraphicsEngine`, `DisplayRegion` | ✅ 部分 | `minimap.py` | v0.6.0 |
+| 9 | 遮挡剔除 | `OccluderNode`, `occluder` | ❌ 未实现 | — | — |
+| 10 | LOD 层次细节 | `LODNode`, `FadeLODNode` | ❌ 未实现 | — | — |
+| 11 | 实例化渲染 | `instanceTo()`, `setInstanceCount()` | ❌ 未实现 | — | — |
+| 12 | 雾效 | `Fog`, `setFog()` | ✅ 已实现 | `fog.py` | v0.6.0 |
+| 13 | 程序化几何体 | `GeomVertexData`, `GeomTriangles`, `GeomNode` | ✅ 已实现 | `skybox.py`, `minimap.py` | v0.6.0 |
 
-| # | 功能 | 引擎模块 / 示例 | 优先级 | 难度 | 状态 |
-|---|------|----------------|--------|------|------|
-| 1 | **Shader 地形** | `samples/shader-terrain/` · `ShaderTerrainMesh` | 🟡 中 | ⭐⭐⭐ | 📋 计划中 |
-| 2 | **水面效果** | 引擎 Shader · `distortion` 示例 | 🟢 低 | ⭐⭐⭐ | 📋 计划中 |
-| 3 | **点光源 / 聚光灯** | `samples/disco-lights/` · `PointLight` · `Spotlight` | 🟡 中 | ⭐ | 📋 计划中 |
-| 4 | **法线贴图 / Bump Mapping** | `samples/bump-mapping/` · `Shader` | 🟢 低 | ⭐⭐⭐ | 📋 计划中 |
-| 5 | **卡通渲染 Toon Shader** | `samples/cartoon-shader/` · `LightRampAttrib` | 🟢 低 | ⭐⭐⭐ | 📋 计划中 |
-| 6 | **运动拖尾** | `samples/motion-trails/` · `MotionTrail` | 🟢 低 | ⭐⭐ | 📋 计划中 |
-| 7 | **渲染到纹理 RTT** | `samples/render-to-texture/` · `makeTextureBuffer` | 🟢 低 | ⭐⭐ | 📋 计划中 |
-| 8 | **程序化几何体** | `samples/procedural-cube/` · `GeomVertexData` | 🟢 低 | ⭐⭐ | 📋 计划中 |
-| 9 | **手柄 / Gamepad 输入** | `samples/gamepad/` · `InputDevice` | 🟢 低 | ⭐⭐ | 📋 计划中 |
-| 10 | **视频 / 媒体播放** | `samples/media-player/` · `MovieTexture` | 🟢 低 | ⭐ | 📋 计划中 |
-| 11 | **遮挡剔除** | `samples/culling/` · `OccluderNode` | 🟢 低 | ⭐⭐ | 📋 计划中 |
-| 12 | **网络多人** | `samples/networking/` · `direct.distributed` | 🟢 低 | ⭐⭐⭐⭐ | 📋 计划中 |
-| 13 | **关节操控 / IK** | `samples/looking-and-gripping/` · `exposeJoint` | 🟢 低 | ⭐⭐ | 📋 计划中 |
-| 14 | **材质系统** | `panda3d.core.Material` | 🟡 中 | ⭐ | 📋 计划中 |
+### 二、光照 & 阴影 (`panda3d.core` · `panda/src/pgraphnodes`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 14 | 环境光 | `AmbientLight` | ✅ 已实现 | `scene.py` | v0.2.0 |
+| 15 | 平行光 (太阳光) | `DirectionalLight` | ✅ 已实现 | `scene.py` | v0.2.0 |
+| 16 | 点光源 | `PointLight` | ❌ 未实现 | — | — |
+| 17 | 聚光灯 | `Spotlight` | ❌ 未实现 | — | — |
+| 18 | 阴影贴图 | `setShadowCaster()`, shadow buffer | ✅ 已实现 | `shadows.py` | v0.6.0 |
+| 19 | 光照衰减 | `setAttenuation()` | ❌ 未实现 | — | — |
+| 20 | 法线贴图 / Bump Mapping | `setNormalMap()`, tangent-space shader | ❌ 未实现 | — | — |
+| 21 | 卡通渲染 (Toon Shader) | `LightRampAttrib`, ink outline | ❌ 未实现 | — | — |
+
+### 三、动画系统 (`direct.actor` · `direct.interval` · `panda/src/chan`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 22 | Actor 骨骼动画 | `Actor`, `loop()`, `play()` | ✅ 已实现 | `player.py` | v0.1.0 |
+| 23 | 动画混合 / 过渡 | `Actor.blend()`, `enableBlend()` | ❌ 未实现 | — | — |
+| 24 | 关节暴露 / IK | `exposeJoint()`, `controlJoint()` | ❌ 未实现 | — | — |
+| 25 | Interval 动画 | `LerpInterval`, `Sequence`, `Parallel`, `Func` | ✅ 已实现 | `animations.py` | v0.6.0 |
+| 26 | 运动拖尾 | `MotionTrail` | ❌ 未实现 | — | — |
+
+### 四、物理引擎 (`panda3d.bullet` · `panda3d.ode`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 27 | Bullet 刚体物理 | `BulletWorld`, `BulletRigidBodyNode` | ✅ 已实现 | `physics.py` | v0.2.0 |
+| 28 | Bullet 碰撞形状 | `BulletBoxShape`, `BulletSphereShape`, `BulletPlaneShape` | ✅ 已实现 | `physics.py`, `player.py` | v0.2.0 |
+| 29 | Bullet 射线检测 | `rayTestClosest()`, `rayTestAll()` | ✅ 已实现 | `picking.py`, `player.py` | v0.3.0 |
+| 30 | Bullet 调试渲染 | `BulletDebugNode` | ✅ 已实现 | `physics.py` | v0.2.0 |
+| 31 | Bullet 约束 (铰链/滑块) | `BulletHingeConstraint`, `BulletSliderConstraint` | ❌ 未实现 | — | — |
+| 32 | Bullet 软体 | `BulletSoftBodyNode` | ❌ 未实现 | — | — |
+| 33 | Bullet 车辆 | `BulletVehicle` | ❌ 未实现 | — | — |
+| 34 | Bullet 角色控制器 | `BulletCharacterControllerNode` | ❌ 未实现 | — | — |
+| 35 | ODE 物理引擎 | `panda3d.ode` | ❌ 未实现 | — | — |
+| 36 | 内置物理 (简单) | `panda3d.physics`, `ForceNode` | ❌ 未实现 | — | — |
+
+### 五、碰撞检测 (`panda3d.core` · `panda/src/collide`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 37 | 碰撞遍历器 | `CollisionTraverser` | ✅ 已实现 | `collision.py` | v0.6.0 |
+| 38 | 碰撞事件处理 | `CollisionHandlerEvent` | ✅ 已实现 | `collision.py` | v0.6.0 |
+| 39 | 碰撞推送处理 | `CollisionHandlerPusher` | ❌ 未实现 | — | — |
+| 40 | 碰撞物理处理 | `CollisionHandlerFloor`, `CollisionHandlerGravity` | ❌ 未实现 | — | — |
+| 41 | 碰撞形状 | `CollisionSphere`, `CollisionBox`, `CollisionRay` | ✅ 已实现 | `collision.py` | v0.6.0 |
+
+### 六、GUI 系统 (`direct.gui` · `panda/src/pgui`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 42 | DirectButton | `DirectButton` | ✅ 已实现 | `settings_panel.py`, `game_fsm.py`, `exit_dialog.py` | v0.2.0 |
+| 43 | DirectFrame | `DirectFrame` | ✅ 已实现 | `settings_panel.py`, `dialogue.py` | v0.2.0 |
+| 44 | DirectLabel | `DirectLabel` | ✅ 已实现 | `settings_panel.py`, `hud.py` | v0.2.0 |
+| 45 | DirectSlider | `DirectSlider` | ✅ 已实现 | `settings_panel.py` | v0.2.0 |
+| 46 | DirectEntry (文本输入) | `DirectEntry` | ❌ 未实现 | — | — |
+| 47 | DirectScrolledList | `DirectScrolledList` | ❌ 未实现 | — | — |
+| 48 | DirectDialog | `DirectDialog`, `OkDialog`, `YesNoDialog` | ❌ 未实现 | — | — |
+| 49 | OnscreenText | `OnscreenText` | ✅ 已实现 | `hud.py`, `dialogue.py` | v0.2.0 |
+| 50 | OnscreenImage | `OnscreenImage` | ❌ 未实现 | — | — |
+
+### 七、音频系统 (`panda3d.core` · `panda/src/audio`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 51 | 音效加载 & 播放 | `loader.loadSfx()`, `play()` | ✅ 已实现 | `audio.py` | v0.3.0 |
+| 52 | 音量控制 | `setVolume()` | ✅ 已实现 | `audio.py`, `settings_panel.py` | v0.3.0 |
+| 53 | 3D 空间音效 | `AudioSound3D`, `setPos()` | ❌ 未实现 | — | — |
+| 54 | 背景音乐 | `loader.loadMusic()`, `setLoop()` | ❌ 未实现 | — | — |
+| 55 | 视频/媒体播放 | `MovieTexture`, `MovieVideo` | ❌ 未实现 | — | — |
+
+### 八、输入系统 (`panda3d.core` · `panda/src/device`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 56 | 键盘输入 | `accept()`, `KeyboardButton` | ✅ 已实现 | `main.py` | v0.1.0 |
+| 57 | 鼠标输入 | `mouseWatcherNode`, `getMouse()` | ✅ 已实现 | `camera.py`, `picking.py` | v0.2.0 |
+| 58 | 鼠标模式 (相对/绝对/隐藏) | `WindowProperties.setCursorHidden()`, `setMouseMode()` | ❌ 未实现 | — | — |
+| 59 | 手柄 / Gamepad | `InputDevice`, `InputDeviceManager` | ❌ 未实现 | — | — |
+| 60 | 触摸输入 | `TouchInfo` | ❌ 未实现 | — | — |
+
+### 九、粒子系统 (`direct.particles` · `panda/src/particlesystem`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 61 | 粒子效果 | `ParticleEffect`, `Particles` | ✅ 已实现 | `particles_fx.py` | v0.6.0 |
+| 62 | 粒子发射器 | `SphereSurfaceEmitter`, `PointEmitter`, `RingEmitter` | ✅ 已实现 | `particles_fx.py` | v0.6.0 |
+| 63 | 粒子渲染器 | `PointParticleRenderer`, `SpriteParticleRenderer` | ✅ 部分 | `particles_fx.py` | v0.6.0 |
+| 64 | 粒子力场 | `LinearVectorForce`, `LinearJitterForce` | ❌ 未实现 | — | — |
+
+### 十、后处理 & 滤镜 (`direct.filter`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 65 | Bloom 泛光 | `CommonFilters.setBloom()` | ✅ 已实现 | `post_processing.py` | v0.6.0 |
+| 66 | 环境光遮蔽 AO | `CommonFilters.setAmbientOcclusion()` | ✅ 已实现 | `post_processing.py` | v0.6.0 |
+| 67 | 模糊 / 锐化 | `CommonFilters.setBlurSharpen()` | ✅ 已实现 | `post_processing.py` | v0.6.0 |
+| 68 | HDR 色调映射 | `CommonFilters.setHighDynamicRange()` | ✅ 已实现 | `post_processing.py` | v0.6.0 |
+| 69 | 颜色反转 | `CommonFilters.setInverted()` | ✅ 已实现 | `post_processing.py` | v0.6.0 |
+| 70 | 扭曲效果 | `distortion` shader | ❌ 未实现 | — | — |
+| 71 | 景深 (DOF) | 自定义 shader | ❌ 未实现 | — | — |
+
+### 十一、地形 & 环境 (`panda3d.core`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 72 | Shader 地形 | `ShaderTerrainMesh` | ❌ 未实现 | — | — |
+| 73 | 高度图地形 | `GeoMipTerrain` | ❌ 未实现 | — | — |
+| 74 | 天空盒 / 天空球 | 程序化几何体 + `CompassEffect` | ✅ 已实现 | `skybox.py` | v0.6.0 |
+| 75 | 水面效果 | Shader + RTT + 扭曲 | ❌ 未实现 | — | — |
+
+### 十二、任务 & 事件 (`direct.task` · `direct.showbase`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 76 | 任务管理器 | `taskMgr.add()`, `doMethodLater()` | ✅ 已实现 | `main.py`, `particles_fx.py` | v0.1.0 |
+| 77 | 事件系统 | `accept()`, `messenger.send()` | ✅ 已实现 | `main.py`, `collision.py` | v0.1.0 |
+| 78 | FSM 状态机 | `direct.fsm.FSM` | ✅ 已实现 | `game_fsm.py` | v0.6.0 |
+
+### 十三、文件 & 资源 (`panda3d.core`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 79 | 模型格式 (.egg) | `EggData`, `loadModel()` | ✅ 已实现 | `scene.py`, `player.py` | v0.1.0 |
+| 80 | 模型格式 (.bam) | `BamFile`, `writeBamFile()` | ❌ 未使用 | — | — |
+| 81 | 模型格式 (.gltf/.glb) | Assimp loader | ❌ 未使用 | — | — |
+| 82 | 压缩模型 (.pz) | `loadModel("*.egg.pz")` | ✅ 已实现 | `scene.py`, `player.py` | v0.1.0 |
+| 83 | 配置文件 | `loadPrcFileData()`, `config.prc` | ✅ 已实现 | `main.py`, `config.prc` | v0.1.0 |
+| 84 | 虚拟文件系统 | `VirtualFileSystem`, `mount()` | ❌ 未实现 | — | — |
+
+### 十四、文本 & 字体 (`panda3d.core` · `panda/src/text`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 85 | 动态文本字体 | `DynamicTextFont`, `loader.loadFont()` | ✅ 已实现 | `hud.py` | v0.2.0 |
+| 86 | 静态文本字体 | `StaticTextFont` | ❌ 未使用 | — | — |
+| 87 | 文本节点 | `TextNode`, `OnscreenText` | ✅ 已实现 | `hud.py`, `dialogue.py` | v0.2.0 |
+| 88 | CJK 中文支持 | `DynamicTextFont` + 系统字体 | ✅ 已实现 | `hud.py` | v0.2.0 |
+
+### 十五、网络 & 分布式 (`direct.distributed` · `panda/src/net`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 89 | 分布式对象 | `DistributedObject`, `DistributedNode` | ❌ 未实现 | — | — |
+| 90 | 客户端/服务器 | `ClientRepository`, `ServerRepository` | ❌ 未实现 | — | — |
+| 91 | 原生网络 | `panda3d.nativenet`, `Connection` | ❌ 未实现 | — | — |
+
+### 十六、窗口 & 显示 (`panda3d.core` · `panda/src/display`)
+
+| # | 引擎功能 | 引擎模块 / API | my_game 状态 | 实现模块 | 版本 |
+|---|---------|---------------|-------------|---------|------|
+| 92 | 窗口属性 | `WindowProperties`, `setTitle()`, `setSize()` | ✅ 已实现 | `main.py` | v0.1.0 |
+| 93 | 全屏模式 | `WindowProperties.setFullscreen()` | ❌ 未实现 | — | — |
+| 94 | 多窗口 | `openWindow()` | ❌ 未实现 | — | — |
+| 95 | 帧率控制 | `globalClock`, `setFrameRate()` | ✅ 已实现 | `hud.py` | v0.2.0
 
 ---
 
