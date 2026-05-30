@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="700" viewBox="0 0 960 700"
+     font-family="'Helvetica Neue',Arial,'PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <marker id="aB" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#1565C0"/>
+    </marker>
+    <marker id="aG" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#2E7D32"/>
+    </marker>
+    <marker id="aO" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#E65100"/>
+    </marker>
+    <marker id="aP" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#6A1B9A"/>
+    </marker>
+  </defs>
+
+  <!-- White background -->
+  <rect width="960" height="700" fill="#FFFFFF"/>
+  <rect x="1" y="1" width="958" height="698" fill="none" stroke="#B0BEC5" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="480" y="34" text-anchor="middle" font-size="18" font-weight="bold" fill="#1565C0">Panda3D 场景图数据结构与类关系</text>
+  <text x="480" y="52" text-anchor="middle" font-size="11" fill="#546E7A">Fig. 3 — Scene Graph Data Structure &amp; Class Hierarchy</text>
+  <line x1="30" y1="62" x2="930" y2="62" stroke="#1565C0" stroke-width="1.5"/>
+
+  <!-- ===== LEFT: Class Hierarchy ===== -->
+  <text x="200" y="84" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565C0">类继承层次</text>
+  <line x1="60" y1="90" x2="360" y2="90" stroke="#1565C0" stroke-width="0.8"/>
+
+  <!-- TypedWritableReferenceCount -->
+  <rect x="70" y="98" width="260" height="36" rx="3" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="200" y="113" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">TypedWritableReferenceCount</text>
+  <text x="200" y="127" text-anchor="middle" font-size="8.5" fill="#546E7A">引用计数 + RTTI + 序列化</text>
+
+  <line x1="200" y1="134" x2="200" y2="148" stroke="#1565C0" stroke-width="1.2" marker-end="url(#aB)"/>
+
+  <!-- PandaNode -->
+  <rect x="70" y="152" width="260" height="36" rx="3" fill="#BBDEFB" stroke="#1565C0" stroke-width="1.8"/>
+  <text x="200" y="167" text-anchor="middle" font-size="11" font-weight="bold" fill="#0D47A1">PandaNode</text>
+  <text x="200" y="181" text-anchor="middle" font-size="8.5" fill="#1565C0">场景图节点基类 · 支持多父节点</text>
+
+  <!-- PandaNode children branch -->
+  <line x1="200" y1="188" x2="200" y2="202" stroke="#1565C0" stroke-width="1"/>
+  <line x1="100" y1="202" x2="310" y2="202" stroke="#1565C0" stroke-width="1"/>
+  <line x1="110" y1="202" x2="110" y2="216" stroke="#1565C0" stroke-width="1" marker-end="url(#aB)"/>
+  <line x1="200" y1="202" x2="200" y2="216" stroke="#1565C0" stroke-width="1" marker-end="url(#aB)"/>
+  <line x1="300" y1="202" x2="300" y2="216" stroke="#1565C0" stroke-width="1" marker-end="url(#aB)"/>
+
+  <rect x="50" y="220" width="120" height="30" rx="3" fill="#FFFFFF" stroke="#1565C0" stroke-width="1"/>
+  <text x="110" y="233" text-anchor="middle" font-size="9" font-weight="bold" fill="#1565C0">GeomNode</text>
+  <text x="110" y="245" text-anchor="middle" font-size="8" fill="#546E7A">几何体节点</text>
+
+  <rect x="140" y="220" width="120" height="30" rx="3" fill="#FFFFFF" stroke="#1565C0" stroke-width="1"/>
+  <text x="200" y="233" text-anchor="middle" font-size="9" font-weight="bold" fill="#1565C0">Camera</text>
+  <text x="200" y="245" text-anchor="middle" font-size="8" fill="#546E7A">相机节点</text>
+
+  <rect x="240" y="220" width="120" height="30" rx="3" fill="#FFFFFF" stroke="#1565C0" stroke-width="1"/>
+  <text x="300" y="233" text-anchor="middle" font-size="9" font-weight="bold" fill="#1565C0">CollisionNode</text>
+  <text x="300" y="245" text-anchor="middle" font-size="8" fill="#546E7A">碰撞节点</text>
+
+  <!-- More subclasses -->
+  <line x1="200" y1="250" x2="200" y2="264" stroke="#1565C0" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <line x1="100" y1="264" x2="310" y2="264" stroke="#1565C0" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <line x1="130" y1="264" x2="130" y2="278" stroke="#1565C0" stroke-width="0.8" marker-end="url(#aB)"/>
+  <line x1="200" y1="264" x2="200" y2="278" stroke="#1565C0" stroke-width="0.8" marker-end="url(#aB)"/>
+  <line x1="280" y1="264" x2="280" y2="278" stroke="#1565C0" stroke-width="0.8" marker-end="url(#aB)"/>
+
+  <rect x="60" y="282" width="140" height="28" rx="3" fill="#F5F5F5" stroke="#90A4AE" stroke-width="0.8"/>
+  <text x="130" y="294" text-anchor="middle" font-size="8" fill="#546E7A">LightNode · FogNode</text>
+  <text x="130" y="306" text-anchor="middle" font-size="8" fill="#546E7A">PlaneNode · LODNode</text>
+
+  <rect x="158" y="282" width="84" height="28" rx="3" fill="#F5F5F5" stroke="#90A4AE" stroke-width="0.8"/>
+  <text x="200" y="294" text-anchor="middle" font-size="8" fill="#546E7A">PartBundleNode</text>
+  <text x="200" y="306" text-anchor="middle" font-size="8" fill="#546E7A">骨骼根节点</text>
+
+  <rect x="240" y="282" width="100" height="28" rx="3" fill="#F5F5F5" stroke="#90A4AE" stroke-width="0.8"/>
+  <text x="290" y="294" text-anchor="middle" font-size="8" fill="#546E7A">BulletRigidBody</text>
+  <text x="290" y="306" text-anchor="middle" font-size="8" fill="#546E7A">Node</text>
+
+  <!-- NodePath -->
+  <rect x="70" y="334" width="260" height="50" rx="3" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="200" y="352" text-anchor="middle" font-size="11" font-weight="bold" fill="#6A1B9A">NodePath</text>
+  <text x="200" y="366" text-anchor="middle" font-size="8.5" fill="#4A148C">场景图操作句柄</text>
+  <text x="200" y="378" text-anchor="middle" font-size="8" fill="#7B1FA2">NodePathComponent 链表 → PandaNode</text>
+
+  <!-- RenderState / TransformState -->
+  <rect x="70" y="404" width="120" height="50" rx="3" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.2"/>
+  <text x="130" y="420" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">RenderState</text>
+  <text x="130" y="434" text-anchor="middle" font-size="8" fill="#388E3C">不可变共享</text>
+  <text x="130" y="446" text-anchor="middle" font-size="8" fill="#388E3C">全局哈希缓存</text>
+
+  <rect x="210" y="404" width="120" height="50" rx="3" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.2"/>
+  <text x="270" y="420" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">TransformState</text>
+  <text x="270" y="434" text-anchor="middle" font-size="8" fill="#388E3C">不可变共享</text>
+  <text x="270" y="446" text-anchor="middle" font-size="8" fill="#388E3C">矩阵 + 分量缓存</text>
+
+  <!-- RenderAttrib types -->
+  <rect x="70" y="474" width="260" height="62" rx="3" fill="#F9FBE7" stroke="#827717" stroke-width="0.8"/>
+  <text x="200" y="490" text-anchor="middle" font-size="9" font-weight="bold" fill="#827717">RenderAttrib 子类</text>
+  <text x="200" y="504" text-anchor="middle" font-size="8" fill="#546E7A">TextureAttrib · ShaderAttrib · ColorAttrib</text>
+  <text x="200" y="518" text-anchor="middle" font-size="8" fill="#546E7A">LightAttrib · FogAttrib · DepthTestAttrib</text>
+  <text x="200" y="532" text-anchor="middle" font-size="8" fill="#546E7A">TransparencyAttrib · CullFaceAttrib ...</text>
+
+  <!-- NodePath → RenderState arrow -->
+  <line x1="200" y1="384" x2="200" y2="402" stroke="#6A1B9A" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#aP)"/>
+
+  <!-- ===== RIGHT: Scene Graph Tree ===== -->
+  <text x="680" y="84" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">场景图树结构示例</text>
+  <line x1="430" y1="90" x2="940" y2="90" stroke="#E65100" stroke-width="0.8"/>
+
+  <!-- render (root) -->
+  <rect x="570" y="98" width="220" height="36" rx="3" fill="#FFF3E0" stroke="#E65100" stroke-width="1.8"/>
+  <text x="680" y="113" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF360C">render</text>
+  <text x="680" y="127" text-anchor="middle" font-size="8.5" fill="#E65100">3D 场景根节点 (PandaNode)</text>
+
+  <!-- render children -->
+  <line x1="680" y1="134" x2="680" y2="148" stroke="#E65100" stroke-width="1"/>
+  <line x1="540" y1="148" x2="830" y2="148" stroke="#E65100" stroke-width="1"/>
+  <line x1="570" y1="148" x2="570" y2="162" stroke="#E65100" stroke-width="1" marker-end="url(#aO)"/>
+  <line x1="680" y1="148" x2="680" y2="162" stroke="#E65100" stroke-width="1" marker-end="url(#aO)"/>
+  <line x1="810" y1="148" x2="810" y2="162" stroke="#E65100" stroke-width="1" marker-end="url(#aO)"/>
+
+  <!-- camera -->
+  <rect x="470" y="166" width="200" height="30" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="570" y="179" text-anchor="middle" font-size="9" font-weight="bold" fill="#BF360C">camera (Camera)</text>
+  <text x="570" y="191" text-anchor="middle" font-size="8" fill="#546E7A">PerspectiveLens</text>
+
+  <!-- environment -->
+  <rect x="590" y="166" width="180" height="30" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="680" y="179" text-anchor="middle" font-size="9" font-weight="bold" fill="#BF360C">environment (ModelRoot)</text>
+  <text x="680" y="191" text-anchor="middle" font-size="8" fill="#546E7A">地面模型</text>
+
+  <!-- player_physics -->
+  <rect x="720" y="166" width="180" height="30" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="810" y="179" text-anchor="middle" font-size="9" font-weight="bold" fill="#BF360C">player_physics</text>
+  <text x="810" y="191" text-anchor="middle" font-size="8" fill="#546E7A">BulletRigidBodyNode</text>
+
+  <!-- player_physics children -->
+  <line x1="810" y1="196" x2="810" y2="210" stroke="#E65100" stroke-width="1"/>
+  <line x1="745" y1="210" x2="875" y2="210" stroke="#E65100" stroke-width="1"/>
+  <line x1="755" y1="210" x2="755" y2="224" stroke="#E65100" stroke-width="1" marker-end="url(#aO)"/>
+  <line x1="865" y1="210" x2="865" y2="224" stroke="#E65100" stroke-width="1" marker-end="url(#aO)"/>
+
+  <rect x="680" y="228" width="150" height="28" rx="3" fill="#FFF8E1" stroke="#F57F17" stroke-width="0.8"/>
+  <text x="755" y="241" text-anchor="middle" font-size="8" font-weight="bold" fill="#E65100">panda_model (Actor)</text>
+  <text x="755" y="253" text-anchor="middle" font-size="7.5" fill="#546E7A">PartBundleNode</text>
+
+  <rect x="836" y="228" width="100" height="28" rx="3" fill="#FFF8E1" stroke="#F57F17" stroke-width="0.8"/>
+  <text x="886" y="241" text-anchor="middle" font-size="8" font-weight="bold" fill="#E65100">floater</text>
+  <text x="886" y="253" text-anchor="middle" font-size="7.5" fill="#546E7A">相机跟随点</text>
+
+  <!-- Lights subtree -->
+  <line x1="680" y1="196" x2="680" y2="210" stroke="#E65100" stroke-width="1"/>
+  <line x1="620" y1="210" x2="740" y2="210" stroke="#E65100" stroke-width="1"/>
+  <line x1="630" y1="210" x2="630" y2="224" stroke="#E65100" stroke-width="1" marker-end="url(#aO)"/>
+  <line x1="720" y1="210" x2="720" y2="224" stroke="#E65100" stroke-width="1" marker-end="url(#aO)"/>
+
+  <rect x="560" y="228" width="130" height="28" rx="3" fill="#FFF8E1" stroke="#F57F17" stroke-width="0.8"/>
+  <text x="625" y="241" text-anchor="middle" font-size="8" font-weight="bold" fill="#E65100">sun (DirectionalLight)</text>
+  <text x="625" y="253" text-anchor="middle" font-size="7.5" fill="#546E7A">LightNode</text>
+
+  <!-- NodePath concept box -->
+  <rect x="440" y="300" width="490" height="82" rx="4" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.2"/>
+  <text x="685" y="320" text-anchor="middle" font-size="11" font-weight="bold" fill="#6A1B9A">NodePath 路径解析示例</text>
+  <text x="455" y="340" font-size="9.5" fill="#4A148C">np = render.find("**/player_physics/panda_model")</text>
+  <text x="455" y="358" font-size="9" fill="#7B1FA2">→ FindApproxPath BFS 遍历 → NodePathComponent 链</text>
+  <text x="455" y="374" font-size="9" fill="#7B1FA2">→ get_net_transform() 沿路径累积变换矩阵</text>
+
+  <!-- PipelineCycler concept -->
+  <rect x="440" y="400" width="490" height="104" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.2"/>
+  <text x="685" y="420" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">PipelineCycler — 多线程数据隔离</text>
+  <rect x="460" y="432" width="110" height="30" rx="3" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1"/>
+  <text x="515" y="445" text-anchor="middle" font-size="9" font-weight="bold" fill="#2E7D32">Stage[0]</text>
+  <text x="515" y="457" text-anchor="middle" font-size="8" fill="#388E3C">App 写入</text>
+  <rect x="630" y="432" width="110" height="30" rx="3" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1"/>
+  <text x="685" y="445" text-anchor="middle" font-size="9" font-weight="bold" fill="#2E7D32">Stage[1]</text>
+  <text x="685" y="457" text-anchor="middle" font-size="8" fill="#388E3C">Cull 读取</text>
+  <rect x="800" y="432" width="110" height="30" rx="3" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1"/>
+  <text x="855" y="445" text-anchor="middle" font-size="9" font-weight="bold" fill="#2E7D32">Stage[2]</text>
+  <text x="855" y="457" text-anchor="middle" font-size="8" fill="#388E3C">Draw 读取</text>
+  <line x1="570" y1="447" x2="628" y2="447" stroke="#2E7D32" stroke-width="1.2" marker-end="url(#aG)"/>
+  <line x1="740" y1="447" x2="798" y2="447" stroke="#2E7D32" stroke-width="1.2" marker-end="url(#aG)"/>
+  <text x="685" y="494" text-anchor="middle" font-size="9" fill="#2E7D32">每帧 cycle() 轮转，无锁并发访问</text>
+
+  <!-- Instancing note -->
+  <rect x="440" y="522" width="490" height="60" rx="4" fill="#FBE9E7" stroke="#BF360C" stroke-width="1"/>
+  <text x="685" y="542" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF360C">Instancing（多父节点）</text>
+  <text x="455" y="560" font-size="9" fill="#6D4C41">同一 PandaNode 可被多个 NodePath 引用，NodePath 携带完整路径信息解决变换歧义</text>
+  <text x="455" y="574" font-size="9" fill="#6D4C41">→ 实现场景对象复用，节省内存，无需复制几何数据</text>
+
+  <!-- Divider -->
+  <line x1="420" y1="70" x2="420" y2="680" stroke="#B0BEC5" stroke-width="0.8" stroke-dasharray="4,3"/>
+
+  <text x="940" y="690" text-anchor="end" font-size="9" fill="#90A4AE">Fig.3 Scene Graph Structure</text>
+</svg>

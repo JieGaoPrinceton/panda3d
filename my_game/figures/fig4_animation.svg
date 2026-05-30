@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="680" viewBox="0 0 960 680"
+     font-family="'Helvetica Neue',Arial,'PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <marker id="aB" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#1565C0"/>
+    </marker>
+    <marker id="aG" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#2E7D32"/>
+    </marker>
+    <marker id="aO" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#E65100"/>
+    </marker>
+    <marker id="aP" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#6A1B9A"/>
+    </marker>
+  </defs>
+
+  <!-- White background -->
+  <rect width="960" height="680" fill="#FFFFFF"/>
+  <rect x="1" y="1" width="958" height="678" fill="none" stroke="#B0BEC5" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="480" y="34" text-anchor="middle" font-size="18" font-weight="bold" fill="#1565C0">Panda3D 动画系统类层次与调用关系</text>
+  <text x="480" y="52" text-anchor="middle" font-size="11" fill="#546E7A">Fig. 4 — Animation System: Class Hierarchy &amp; Call Flow</text>
+  <line x1="30" y1="62" x2="930" y2="62" stroke="#1565C0" stroke-width="1.5"/>
+
+  <!-- Divider -->
+  <line x1="420" y1="68" x2="420" y2="660" stroke="#B0BEC5" stroke-width="0.8" stroke-dasharray="4,3"/>
+
+  <!-- ===== LEFT: Class Hierarchy ===== -->
+  <text x="210" y="84" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">类层次结构</text>
+  <line x1="40" y1="90" x2="400" y2="90" stroke="#6A1B9A" stroke-width="0.8"/>
+
+  <!-- Actor (Python) -->
+  <rect x="60" y="98" width="300" height="46" rx="3" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.8"/>
+  <text x="210" y="116" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">Actor</text>
+  <text x="210" y="130" text-anchor="middle" font-size="8.5" fill="#7B1FA2">direct/src/actor/Actor.py</text>
+  <text x="210" y="142" text-anchor="middle" font-size="8" fill="#546E7A">Python 高层封装</text>
+
+  <line x1="210" y1="144" x2="210" y2="158" stroke="#6A1B9A" stroke-width="1.2" marker-end="url(#aP)"/>
+
+  <!-- PartBundleNode -->
+  <rect x="60" y="162" width="300" height="36" rx="3" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="210" y="177" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">PartBundleNode</text>
+  <text x="210" y="191" text-anchor="middle" font-size="8.5" fill="#546E7A">panda/src/chan/ · 场景图节点</text>
+
+  <line x1="210" y1="198" x2="210" y2="212" stroke="#1565C0" stroke-width="1.2" marker-end="url(#aB)"/>
+
+  <!-- PartBundle -->
+  <rect x="60" y="216" width="300" height="46" rx="3" fill="#BBDEFB" stroke="#1565C0" stroke-width="1.8"/>
+  <text x="210" y="234" text-anchor="middle" font-size="11" font-weight="bold" fill="#0D47A1">PartBundle</text>
+  <text x="210" y="248" text-anchor="middle" font-size="8.5" fill="#1565C0">骨骼层次根 · 混合管理</text>
+  <text x="210" y="260" text-anchor="middle" font-size="8" fill="#546E7A">ChannelBlend map</text>
+
+  <line x1="210" y1="262" x2="210" y2="276" stroke="#1565C0" stroke-width="1.2" marker-end="url(#aB)"/>
+
+  <!-- PartGroup -->
+  <rect x="60" y="280" width="300" height="36" rx="3" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="210" y="295" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">PartGroup</text>
+  <text x="210" y="309" text-anchor="middle" font-size="8.5" fill="#546E7A">骨骼组节点（树形）</text>
+
+  <line x1="210" y1="316" x2="210" y2="330" stroke="#1565C0" stroke-width="1.2" marker-end="url(#aB)"/>
+
+  <!-- MovingPartMatrix -->
+  <rect x="60" y="334" width="300" height="36" rx="3" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="210" y="349" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">MovingPartMatrix</text>
+  <text x="210" y="363" text-anchor="middle" font-size="8.5" fill="#546E7A">单个骨骼关节（4×4 矩阵）</text>
+
+  <!-- AnimBundle / AnimControl -->
+  <rect x="60" y="406" width="300" height="36" rx="3" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.2"/>
+  <text x="210" y="421" text-anchor="middle" font-size="10" font-weight="bold" fill="#1B5E20">AnimBundle</text>
+  <text x="210" y="435" text-anchor="middle" font-size="8.5" fill="#546E7A">动画数据根 · 关键帧集合</text>
+
+  <rect x="60" y="456" width="300" height="46" rx="3" fill="#C8E6C9" stroke="#2E7D32" stroke-width="1.8"/>
+  <text x="210" y="474" text-anchor="middle" font-size="11" font-weight="bold" fill="#1B5E20">AnimControl</text>
+  <text x="210" y="488" text-anchor="middle" font-size="8.5" fill="#2E7D32">播放状态：帧号 · 速率 · 循环</text>
+  <text x="210" y="500" text-anchor="middle" font-size="8" fill="#546E7A">AnimInterface: play / loop / stop</text>
+
+  <rect x="60" y="516" width="300" height="46" rx="3" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="210" y="534" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">AnimChannelMatrixXfmTable</text>
+  <text x="210" y="548" text-anchor="middle" font-size="8.5" fill="#388E3C">关键帧数据表</text>
+  <text x="210" y="560" text-anchor="middle" font-size="8" fill="#546E7A">i,j,k · h,p,r · x,y,z 通道</text>
+
+  <!-- ===== RIGHT: Call Flow ===== -->
+  <text x="690" y="84" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">动画更新调用流程</text>
+  <line x1="440" y1="90" x2="930" y2="90" stroke="#E65100" stroke-width="0.8"/>
+
+  <!-- Step 1 -->
+  <rect x="450" y="98" width="490" height="46" rx="3" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="695" y="116" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF360C">① Actor.loop("walk")</text>
+  <text x="695" y="130" text-anchor="middle" font-size="9" fill="#E65100">Python 层：绑定动画 → 创建 AnimControl</text>
+  <text x="695" y="142" text-anchor="middle" font-size="8" fill="#546E7A">auto_bind() 自动匹配 PartBundle ↔ AnimBundle</text>
+
+  <line x1="695" y1="144" x2="695" y2="158" stroke="#E65100" stroke-width="1.5" marker-end="url(#aO)"/>
+
+  <!-- Step 2 -->
+  <rect x="450" y="162" width="490" height="46" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="695" y="180" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF360C">② AnimControl.set_play_rate(1.0)</text>
+  <text x="695" y="194" text-anchor="middle" font-size="9" fill="#E65100">设置播放速率 · 帧号推进</text>
+  <text x="695" y="206" text-anchor="middle" font-size="8" fill="#546E7A">frame = (time × fps) % num_frames</text>
+
+  <line x1="695" y1="208" x2="695" y2="222" stroke="#E65100" stroke-width="1.5" marker-end="url(#aO)"/>
+
+  <!-- Step 3 -->
+  <rect x="450" y="226" width="490" height="46" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="695" y="244" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF360C">③ PartBundle.do_update()</text>
+  <text x="695" y="258" text-anchor="middle" font-size="9" fill="#E65100">遍历所有 MovingPart · 计算混合矩阵</text>
+  <text x="695" y="270" text-anchor="middle" font-size="8" fill="#546E7A">M = Σ(channel_i.value(frame) × weight_i)</text>
+
+  <line x1="695" y1="272" x2="695" y2="286" stroke="#E65100" stroke-width="1.5" marker-end="url(#aO)"/>
+
+  <!-- Step 4 -->
+  <rect x="450" y="290" width="490" height="46" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="695" y="308" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF360C">④ AnimChannelMatrixXfmTable.get_value()</text>
+  <text x="695" y="322" text-anchor="middle" font-size="9" fill="#E65100">读取关键帧 · 帧间线性插值</text>
+  <text x="695" y="334" text-anchor="middle" font-size="8" fill="#546E7A">lerp(frame_a, frame_b, t) → 4×4 矩阵</text>
+
+  <line x1="695" y1="336" x2="695" y2="350" stroke="#E65100" stroke-width="1.5" marker-end="url(#aO)"/>
+
+  <!-- Step 5 -->
+  <rect x="450" y="354" width="490" height="46" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="695" y="372" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF360C">⑤ MovingPartMatrix.update_internals()</text>
+  <text x="695" y="386" text-anchor="middle" font-size="9" fill="#E65100">将混合矩阵写入 TransformState</text>
+  <text x="695" y="398" text-anchor="middle" font-size="8" fill="#546E7A">更新骨骼节点的 net_transform</text>
+
+  <line x1="695" y1="400" x2="695" y2="414" stroke="#E65100" stroke-width="1.5" marker-end="url(#aO)"/>
+
+  <!-- Step 6 -->
+  <rect x="450" y="418" width="490" height="46" rx="3" fill="#FFE0B2" stroke="#E65100" stroke-width="1.5"/>
+  <text x="695" y="436" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF360C">⑥ Shader 蒙皮变换（GPU）</text>
+  <text x="695" y="450" text-anchor="middle" font-size="9" fill="#E65100">骨骼矩阵上传 GPU uniform</text>
+  <text x="695" y="462" text-anchor="middle" font-size="8" fill="#546E7A">vertex_pos = Σ(bone_matrix[i] × weight[i] × pos)</text>
+
+  <!-- BlendType box -->
+  <rect x="450" y="484" width="490" height="120" rx="4" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.2"/>
+  <text x="695" y="504" text-anchor="middle" font-size="11" font-weight="bold" fill="#6A1B9A">BlendType 混合算法对比</text>
+  <line x1="466" y1="512" x2="924" y2="512" stroke="#6A1B9A" stroke-width="0.6"/>
+
+  <text x="466" y="528" font-size="9" font-weight="bold" fill="#6A1B9A">BT_linear</text>
+  <text x="620" y="528" font-size="9" fill="#37474F">矩阵线性插值，速度最快，可能拉伸</text>
+
+  <text x="466" y="546" font-size="9" font-weight="bold" fill="#6A1B9A">BT_normalized_linear</text>
+  <text x="620" y="546" font-size="9" fill="#37474F">归一化线性，改善拉伸问题</text>
+
+  <text x="466" y="564" font-size="9" font-weight="bold" fill="#6A1B9A">BT_componentwise</text>
+  <text x="620" y="564" font-size="9" fill="#37474F">分量独立插值（T/R/S 分离）</text>
+
+  <text x="466" y="582" font-size="9" font-weight="bold" fill="#4A148C">BT_componentwise_quat ★</text>
+  <text x="620" y="582" font-size="9" fill="#37474F">四元数 SLERP，最高质量</text>
+
+  <text x="466" y="598" font-size="8.5" fill="#546E7A">q(t) = q₀·sin((1-t)θ)/sinθ + q₁·sin(tθ)/sinθ</text>
+
+  <text x="940" y="668" text-anchor="end" font-size="9" fill="#90A4AE">Fig.4 Animation System</text>
+</svg>

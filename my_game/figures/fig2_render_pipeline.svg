@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720"
+     font-family="'Helvetica Neue',Arial,'PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <marker id="arrB" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1565C0"/>
+    </marker>
+    <marker id="arrG" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2E7D32"/>
+    </marker>
+    <marker id="arrO" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#E65100"/>
+    </marker>
+    <marker id="arrD" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#546E7A"/>
+    </marker>
+  </defs>
+
+  <!-- White background -->
+  <rect width="960" height="720" fill="#FFFFFF"/>
+  <rect x="1" y="1" width="958" height="718" fill="none" stroke="#B0BEC5" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="480" y="34" text-anchor="middle" font-size="18" font-weight="bold" fill="#1565C0">Panda3D 渲染帧主要函数调用关系</text>
+  <text x="480" y="52" text-anchor="middle" font-size="11" fill="#546E7A">Fig. 2 — Per-Frame Render Pipeline: Function Call Graph</text>
+  <line x1="30" y1="62" x2="930" y2="62" stroke="#1565C0" stroke-width="1.5"/>
+
+  <!-- ===== APP THREAD COLUMN ===== -->
+  <rect x="20" y="74" width="280" height="530" rx="4" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <rect x="20" y="74" width="280" height="28" rx="4" fill="#1565C0"/>
+  <text x="160" y="93" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">App 线程</text>
+
+  <!-- App nodes -->
+  <rect x="38" y="114" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#1565C0" stroke-width="1"/>
+  <text x="160" y="130" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">TaskManager.step()</text>
+  <text x="160" y="146" text-anchor="middle" font-size="8.5" fill="#546E7A">direct/src/task/Task.py</text>
+
+  <line x1="160" y1="154" x2="160" y2="168" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+  <rect x="38" y="172" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#1565C0" stroke-width="1"/>
+  <text x="160" y="188" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">user_task(dt)</text>
+  <text x="160" y="204" text-anchor="middle" font-size="8.5" fill="#546E7A">移动 · 物理 · 动画更新</text>
+
+  <line x1="160" y1="212" x2="160" y2="226" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+  <rect x="38" y="230" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#1565C0" stroke-width="1"/>
+  <text x="160" y="246" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">BulletWorld.doPhysics(dt)</text>
+  <text x="160" y="262" text-anchor="middle" font-size="8.5" fill="#546E7A">panda/src/bullet/bulletWorld.cxx</text>
+
+  <line x1="160" y1="270" x2="160" y2="284" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+  <rect x="38" y="288" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#1565C0" stroke-width="1"/>
+  <text x="160" y="304" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">PartBundle.update()</text>
+  <text x="160" y="320" text-anchor="middle" font-size="8.5" fill="#546E7A">骨骼矩阵混合计算</text>
+
+  <line x1="160" y1="328" x2="160" y2="342" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+  <rect x="38" y="346" width="244" height="40" rx="3" fill="#BBDEFB" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="160" y="362" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">GraphicsEngine.render_frame()</text>
+  <text x="160" y="378" text-anchor="middle" font-size="8.5" fill="#1565C0">panda/src/display/graphicsEngine.cxx</text>
+
+  <line x1="160" y1="386" x2="160" y2="400" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+  <rect x="38" y="404" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#1565C0" stroke-width="1"/>
+  <text x="160" y="420" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">Pipeline.cycle_data()</text>
+  <text x="160" y="436" text-anchor="middle" font-size="8.5" fill="#546E7A">推进多线程流水线数据</text>
+
+  <!-- ===== CULL THREAD COLUMN ===== -->
+  <rect x="340" y="74" width="280" height="530" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <rect x="340" y="74" width="280" height="28" rx="4" fill="#2E7D32"/>
+  <text x="480" y="93" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Cull 线程</text>
+
+  <rect x="358" y="114" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1"/>
+  <text x="480" y="130" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">cull_scene(display_region)</text>
+  <text x="480" y="146" text-anchor="middle" font-size="8.5" fill="#546E7A">GraphicsEngine 调度</text>
+
+  <line x1="480" y1="154" x2="480" y2="168" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#arrG)"/>
+
+  <rect x="358" y="172" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1"/>
+  <text x="480" y="188" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">CullTraverser.traverse(root)</text>
+  <text x="480" y="204" text-anchor="middle" font-size="8.5" fill="#546E7A">panda/src/pgraph/cullTraverser.cxx</text>
+
+  <line x1="480" y1="212" x2="480" y2="226" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#arrG)"/>
+
+  <rect x="358" y="230" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1"/>
+  <text x="480" y="246" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">is_in_view(camera_mask)</text>
+  <text x="480" y="262" text-anchor="middle" font-size="8.5" fill="#546E7A">BoundingVolume 视锥体测试</text>
+
+  <line x1="480" y1="270" x2="480" y2="284" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#arrG)"/>
+
+  <rect x="358" y="288" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1"/>
+  <text x="480" y="304" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">do_traverse(data)</text>
+  <text x="480" y="320" text-anchor="middle" font-size="8.5" fill="#546E7A">递归遍历可见子树</text>
+
+  <line x1="480" y1="328" x2="480" y2="342" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#arrG)"/>
+
+  <rect x="358" y="346" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1"/>
+  <text x="480" y="362" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">RenderState::compose()</text>
+  <text x="480" y="378" text-anchor="middle" font-size="8.5" fill="#546E7A">状态合成 + 全局缓存查找</text>
+
+  <line x1="480" y1="386" x2="480" y2="400" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#arrG)"/>
+
+  <rect x="358" y="404" width="244" height="40" rx="3" fill="#C8E6C9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="480" y="420" text-anchor="middle" font-size="10" font-weight="bold" fill="#1B5E20">CullHandler.record_object()</text>
+  <text x="480" y="436" text-anchor="middle" font-size="8.5" fill="#2E7D32">提交到 CullBin（按 sort 排序）</text>
+
+  <!-- ===== DRAW THREAD COLUMN ===== -->
+  <rect x="660" y="74" width="280" height="530" rx="4" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <rect x="660" y="74" width="280" height="28" rx="4" fill="#E65100"/>
+  <text x="800" y="93" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Draw 线程</text>
+
+  <rect x="678" y="114" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="800" y="130" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">draw_scene(gsg)</text>
+  <text x="800" y="146" text-anchor="middle" font-size="8.5" fill="#546E7A">GraphicsEngine 调度</text>
+
+  <line x1="800" y1="154" x2="800" y2="168" stroke="#E65100" stroke-width="1.5" marker-end="url(#arrO)"/>
+
+  <rect x="678" y="172" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="800" y="188" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">CullBin.draw(gsg)</text>
+  <text x="800" y="204" text-anchor="middle" font-size="8.5" fill="#546E7A">按 sort 值遍历渲染桶</text>
+
+  <line x1="800" y1="212" x2="800" y2="226" stroke="#E65100" stroke-width="1.5" marker-end="url(#arrO)"/>
+
+  <rect x="678" y="230" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="800" y="246" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">GSG.set_state_and_transform()</text>
+  <text x="800" y="262" text-anchor="middle" font-size="8.5" fill="#546E7A">状态差分更新（避免冗余调用）</text>
+
+  <line x1="800" y1="270" x2="800" y2="284" stroke="#E65100" stroke-width="1.5" marker-end="url(#arrO)"/>
+
+  <rect x="678" y="288" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="800" y="304" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">GSG.draw_geom(geom)</text>
+  <text x="800" y="320" text-anchor="middle" font-size="8.5" fill="#546E7A">绑定 VBO · 调用 glDrawElements</text>
+
+  <line x1="800" y1="328" x2="800" y2="342" stroke="#E65100" stroke-width="1.5" marker-end="url(#arrO)"/>
+
+  <rect x="678" y="346" width="244" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="800" y="362" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">ShaderGenerator.synthesize()</text>
+  <text x="800" y="378" text-anchor="middle" font-size="8.5" fill="#546E7A">Auto Shader 自动生成 GLSL</text>
+
+  <line x1="800" y1="386" x2="800" y2="400" stroke="#E65100" stroke-width="1.5" marker-end="url(#arrO)"/>
+
+  <rect x="678" y="404" width="244" height="40" rx="3" fill="#FFE0B2" stroke="#E65100" stroke-width="1.5"/>
+  <text x="800" y="420" text-anchor="middle" font-size="10" font-weight="bold" fill="#BF360C">GraphicsOutput.flip()</text>
+  <text x="800" y="436" text-anchor="middle" font-size="8.5" fill="#E65100">交换前后缓冲区</text>
+
+  <!-- Cross-thread arrows (dashed) -->
+  <!-- App → Cull: Pipeline sync -->
+  <path d="M 300 424 C 320 424 320 130 340 130" stroke="#1565C0" stroke-width="1.2" fill="none" stroke-dasharray="5,3" marker-end="url(#arrB)"/>
+  <text x="316" y="278" font-size="8" fill="#1565C0" text-anchor="middle" transform="rotate(-90,316,278)">Pipeline 同步</text>
+
+  <!-- Cull → Draw: CullResult -->
+  <path d="M 620 424 C 640 424 640 130 660 130" stroke="#2E7D32" stroke-width="1.2" fill="none" stroke-dasharray="5,3" marker-end="url(#arrG)"/>
+  <text x="636" y="278" font-size="8" fill="#2E7D32" text-anchor="middle" transform="rotate(-90,636,278)">CullResult 传递</text>
+
+  <!-- GPU bar -->
+  <rect x="20" y="622" width="920" height="32" rx="4" fill="#ECEFF1" stroke="#455A64" stroke-width="1.2"/>
+  <text x="480" y="643" text-anchor="middle" font-size="11" font-weight="bold" fill="#455A64">GPU — OpenGL / Direct3D / Vulkan</text>
+
+  <!-- Draw → GPU arrow -->
+  <line x1="800" y1="604" x2="800" y2="620" stroke="#E65100" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrO)"/>
+
+  <!-- Legend -->
+  <rect x="20" y="668" width="12" height="12" rx="1" fill="#1565C0"/>
+  <text x="36" y="679" font-size="9" fill="#37474F">App 线程</text>
+  <rect x="110" y="668" width="12" height="12" rx="1" fill="#2E7D32"/>
+  <text x="126" y="679" font-size="9" fill="#37474F">Cull 线程</text>
+  <rect x="200" y="668" width="12" height="12" rx="1" fill="#E65100"/>
+  <text x="216" y="679" font-size="9" fill="#37474F">Draw 线程</text>
+  <line x1="290" y1="674" x2="320" y2="674" stroke="#546E7A" stroke-width="1.2" stroke-dasharray="4,2"/>
+  <text x="326" y="679" font-size="9" fill="#37474F">跨线程数据传递</text>
+
+  <text x="940" y="710" text-anchor="end" font-size="9" fill="#90A4AE">Fig.2 Render Frame Call Graph</text>
+</svg>

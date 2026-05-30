@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620"
+     font-family="'Helvetica Neue',Arial,'PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1565C0"/>
+    </marker>
+  </defs>
+
+  <!-- White background -->
+  <rect width="900" height="620" fill="#FFFFFF"/>
+  <!-- Outer border -->
+  <rect x="1" y="1" width="898" height="618" fill="none" stroke="#B0BEC5" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="450" y="36" text-anchor="middle" font-size="18" font-weight="bold" fill="#1565C0" letter-spacing="0.5">Panda3D 引擎代码分层架构</text>
+  <text x="450" y="54" text-anchor="middle" font-size="11" fill="#546E7A">Fig. 1 — Code Layered Architecture</text>
+  <line x1="40" y1="64" x2="860" y2="64" stroke="#1565C0" stroke-width="1.5"/>
+
+  <!-- Layer 4: User Application -->
+  <rect x="50" y="76" width="800" height="76" rx="4" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <rect x="50" y="76" width="6" height="76" rx="2" fill="#1565C0"/>
+  <text x="90" y="100" font-size="13" font-weight="bold" fill="#1565C0">Layer 4 — 用户应用层</text>
+  <text x="90" y="118" font-size="10" fill="#37474F" font-style="italic">my_game/src/</text>
+  <text x="200" y="118" font-size="10" fill="#212121">PlayerController · OrbitCamera · GameFSM · PhysicsManager · SceneBuilder</text>
+  <text x="90" y="136" font-size="10" fill="#212121">HUD · DayNightCycle · ShadowManager · SkyBox · CollectibleManager · NPCManager</text>
+
+  <!-- Arrow 4→3 -->
+  <line x1="450" y1="152" x2="450" y2="168" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Layer 3: Python Framework -->
+  <rect x="50" y="172" width="800" height="76" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <rect x="50" y="172" width="6" height="76" rx="2" fill="#2E7D32"/>
+  <text x="90" y="196" font-size="13" font-weight="bold" fill="#2E7D32">Layer 3 — Python 高层框架</text>
+  <text x="90" y="214" font-size="10" fill="#37474F" font-style="italic">direct/src/</text>
+  <text x="200" y="214" font-size="10" fill="#212121">ShowBase · TaskManager · FSM · Interval · Actor · Messenger</text>
+  <text x="90" y="232" font-size="10" fill="#212121">DirectGUI · Loader · BufferViewer · IntervalManager · distributed</text>
+
+  <!-- Arrow 3→2 -->
+  <line x1="450" y1="248" x2="450" y2="264" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Layer 2: C++ Engine Core -->
+  <rect x="50" y="268" width="800" height="130" rx="4" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <rect x="50" y="268" width="6" height="130" rx="2" fill="#E65100"/>
+  <text x="90" y="292" font-size="13" font-weight="bold" fill="#E65100">Layer 2 — C++ 引擎核心层</text>
+  <text x="90" y="308" font-size="10" fill="#37474F" font-style="italic">panda/src/</text>
+
+  <!-- Sub-boxes in Layer 2 -->
+  <rect x="90" y="316" width="128" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="154" y="332" text-anchor="middle" font-size="10" font-weight="bold" fill="#BF360C">pgraph</text>
+  <text x="154" y="348" text-anchor="middle" font-size="9" fill="#5D4037">场景图 · 裁剪 · 状态</text>
+
+  <rect x="232" y="316" width="128" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="296" y="332" text-anchor="middle" font-size="10" font-weight="bold" fill="#BF360C">display</text>
+  <text x="296" y="348" text-anchor="middle" font-size="9" fill="#5D4037">渲染管线 · GSG · 窗口</text>
+
+  <rect x="374" y="316" width="128" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="438" y="332" text-anchor="middle" font-size="10" font-weight="bold" fill="#BF360C">gobj</text>
+  <text x="438" y="348" text-anchor="middle" font-size="9" fill="#5D4037">几何体 · 顶点 · 纹理</text>
+
+  <rect x="516" y="316" width="128" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="580" y="332" text-anchor="middle" font-size="10" font-weight="bold" fill="#BF360C">chan</text>
+  <text x="580" y="348" text-anchor="middle" font-size="9" fill="#5D4037">动画通道 · 骨骼混合</text>
+
+  <rect x="658" y="316" width="128" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="722" y="332" text-anchor="middle" font-size="10" font-weight="bold" fill="#BF360C">collide · bullet</text>
+  <text x="722" y="348" text-anchor="middle" font-size="9" fill="#5D4037">碰撞 · 物理仿真</text>
+
+  <text x="90" y="378" font-size="9" fill="#6D4C41">+ audio · egg · egg2pg · ffmpeg · grutil · linmath · mathutil · movies · net · particlesystem · physics · text · tform</text>
+
+  <!-- Arrow 2→1 -->
+  <line x1="450" y1="398" x2="450" y2="414" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Layer 1: dtool -->
+  <rect x="50" y="418" width="800" height="76" rx="4" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <rect x="50" y="418" width="6" height="76" rx="2" fill="#6A1B9A"/>
+  <text x="90" y="442" font-size="13" font-weight="bold" fill="#6A1B9A">Layer 1 — 基础工具层</text>
+  <text x="90" y="460" font-size="10" fill="#37474F" font-style="italic">dtool/src/</text>
+  <text x="200" y="460" font-size="10" fill="#212121">prc（配置系统）· dtoolbase（内存/RTTI）· dtoolutil（文件/路径）</text>
+  <text x="90" y="478" font-size="10" fill="#212121">interrogatedb（Python绑定元数据）· parser-inc · prckeys</text>
+
+  <!-- Arrow 1→0 -->
+  <line x1="450" y1="494" x2="450" y2="510" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Layer 0: OS/Hardware -->
+  <rect x="50" y="514" width="800" height="52" rx="4" fill="#ECEFF1" stroke="#455A64" stroke-width="1.5"/>
+  <rect x="50" y="514" width="6" height="52" rx="2" fill="#455A64"/>
+  <text x="90" y="536" font-size="13" font-weight="bold" fill="#455A64">Layer 0 — 操作系统 / 硬件</text>
+  <text x="90" y="554" font-size="10" fill="#37474F">OpenGL · Direct3D · Vulkan · Bullet SDK · FMOD · OpenAL · OS Window System</text>
+
+  <!-- Legend -->
+  <rect x="50" y="580" width="10" height="10" rx="1" fill="#1565C0"/>
+  <text x="65" y="590" font-size="9" fill="#37474F">用户层</text>
+  <rect x="120" y="580" width="10" height="10" rx="1" fill="#2E7D32"/>
+  <text x="135" y="590" font-size="9" fill="#37474F">Python框架</text>
+  <rect x="210" y="580" width="10" height="10" rx="1" fill="#E65100"/>
+  <text x="225" y="590" font-size="9" fill="#37474F">C++核心</text>
+  <rect x="290" y="580" width="10" height="10" rx="1" fill="#6A1B9A"/>
+  <text x="305" y="590" font-size="9" fill="#37474F">基础工具</text>
+  <rect x="370" y="580" width="10" height="10" rx="1" fill="#455A64"/>
+  <text x="385" y="590" font-size="9" fill="#37474F">OS/硬件</text>
+
+  <text x="850" y="610" text-anchor="end" font-size="9" fill="#90A4AE">Fig.1 Panda3D Layered Architecture</text>
+</svg>

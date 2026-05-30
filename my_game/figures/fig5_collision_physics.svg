@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720"
+     font-family="'Helvetica Neue',Arial,'PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <marker id="aB" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#1565C0"/>
+    </marker>
+    <marker id="aO" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#E65100"/>
+    </marker>
+  </defs>
+
+  <!-- White background -->
+  <rect width="960" height="720" fill="#FFFFFF"/>
+  <rect x="1" y="1" width="958" height="718" fill="none" stroke="#B0BEC5" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="480" y="34" text-anchor="middle" font-size="18" font-weight="bold" fill="#1565C0">Panda3D 碰撞与物理系统对比分析</text>
+  <text x="480" y="52" text-anchor="middle" font-size="11" fill="#546E7A">Fig. 5 — Collision &amp; Physics Systems: Comparative Architecture</text>
+  <line x1="30" y1="62" x2="930" y2="62" stroke="#1565C0" stroke-width="1.5"/>
+
+  <!-- ===== LEFT: Built-in Collision ===== -->
+  <rect x="20" y="72" width="450" height="574" rx="4" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <rect x="20" y="72" width="450" height="30" rx="4" fill="#1565C0"/>
+  <text x="245" y="93" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">内置碰撞系统</text>
+  <text x="245" y="108" text-anchor="middle" font-size="9" fill="#546E7A" dy="8">panda/src/collide/</text>
+
+  <!-- CollisionTraverser -->
+  <rect x="40" y="122" width="410" height="40" rx="3" fill="#FFFFFF" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="245" y="138" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">CollisionTraverser.traverse(root)</text>
+  <text x="245" y="154" text-anchor="middle" font-size="8.5" fill="#546E7A">遍历场景图 · 收集碰撞对</text>
+
+  <line x1="245" y1="162" x2="245" y2="176" stroke="#1565C0" stroke-width="1.5" marker-end="url(#aB)"/>
+
+  <!-- Broadphase -->
+  <rect x="40" y="180" width="410" height="40" rx="3" fill="#FFFFFF" stroke="#1565C0" stroke-width="1"/>
+  <text x="245" y="196" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">BoundingSphere 快速排除</text>
+  <text x="245" y="212" text-anchor="middle" font-size="8.5" fill="#546E7A">边界球相交测试 O(C×S) 粗筛</text>
+
+  <line x1="245" y1="220" x2="245" y2="234" stroke="#1565C0" stroke-width="1.5" marker-end="url(#aB)"/>
+
+  <!-- Narrowphase -->
+  <rect x="40" y="238" width="410" height="40" rx="3" fill="#FFFFFF" stroke="#1565C0" stroke-width="1"/>
+  <text x="245" y="254" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">CollisionSolid.test_intersection()</text>
+  <text x="245" y="270" text-anchor="middle" font-size="8.5" fill="#546E7A">精确几何测试（解析法）</text>
+
+  <line x1="245" y1="278" x2="245" y2="292" stroke="#1565C0" stroke-width="1.5" marker-end="url(#aB)"/>
+
+  <!-- CollisionEntry -->
+  <rect x="40" y="296" width="410" height="40" rx="3" fill="#BBDEFB" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="245" y="312" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">CollisionEntry（碰撞结果）</text>
+  <text x="245" y="328" text-anchor="middle" font-size="8.5" fill="#546E7A">碰撞点 · 法线 · 深度 · 双方节点</text>
+
+  <line x1="245" y1="336" x2="245" y2="350" stroke="#1565C0" stroke-width="1.5" marker-end="url(#aB)"/>
+
+  <!-- Handlers -->
+  <rect x="40" y="354" width="410" height="90" rx="3" fill="#FFFFFF" stroke="#1565C0" stroke-width="1"/>
+  <text x="245" y="372" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">CollisionHandler 响应策略</text>
+  <line x1="56" y1="378" x2="434" y2="378" stroke="#1565C0" stroke-width="0.5"/>
+  <text x="56" y="394" font-size="9" fill="#37474F">• HandlerEvent   → 发送 Panda3D 事件</text>
+  <text x="56" y="410" font-size="9" fill="#37474F">• HandlerPusher  → 推开碰撞体（防穿透）</text>
+  <text x="56" y="426" font-size="9" fill="#37474F">• HandlerFloor   → 角色站在地面</text>
+  <text x="56" y="440" font-size="9" fill="#37474F">• HandlerQueue   → 收集结果供查询</text>
+
+  <!-- Solid types -->
+  <rect x="40" y="458" width="410" height="110" rx="3" fill="#F5F5F5" stroke="#90A4AE" stroke-width="0.8"/>
+  <text x="245" y="476" text-anchor="middle" font-size="10" font-weight="bold" fill="#455A64">碰撞体形状</text>
+  <line x1="56" y1="482" x2="434" y2="482" stroke="#90A4AE" stroke-width="0.5"/>
+  <text x="56" y="498" font-size="9" fill="#37474F">CollisionSphere      — 球体（最快）</text>
+  <text x="56" y="514" font-size="9" fill="#37474F">CollisionBox         — 轴对齐包围盒</text>
+  <text x="56" y="530" font-size="9" fill="#37474F">CollisionCapsule     — 胶囊体</text>
+  <text x="56" y="546" font-size="9" fill="#37474F">CollisionRay         — 射线（地面检测）</text>
+  <text x="56" y="562" font-size="9" fill="#37474F">CollisionPolygon     — 任意多边形</text>
+
+  <!-- Feature tags -->
+  <rect x="40" y="582" width="190" height="44" rx="3" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="135" y="598" text-anchor="middle" font-size="9" font-weight="bold" fill="#2E7D32">优点</text>
+  <text x="135" y="614" text-anchor="middle" font-size="8.5" fill="#388E3C">轻量级 · 无外部依赖</text>
+  <text x="135" y="626" text-anchor="middle" font-size="8.5" fill="#388E3C">适合简单游戏逻辑</text>
+
+  <rect x="260" y="582" width="190" height="44" rx="3" fill="#FFEBEE" stroke="#C62828" stroke-width="1"/>
+  <text x="355" y="598" text-anchor="middle" font-size="9" font-weight="bold" fill="#C62828">局限</text>
+  <text x="355" y="614" text-anchor="middle" font-size="8.5" fill="#B71C1C">无刚体动力学</text>
+  <text x="355" y="626" text-anchor="middle" font-size="8.5" fill="#B71C1C">无约束求解器</text>
+
+  <!-- ===== RIGHT: Bullet Physics ===== -->
+  <rect x="490" y="72" width="450" height="574" rx="4" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <rect x="490" y="72" width="450" height="30" rx="4" fill="#E65100"/>
+  <text x="715" y="93" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">Bullet 物理系统</text>
+  <text x="715" y="108" text-anchor="middle" font-size="9" fill="#546E7A" dy="8">panda/src/bullet/ + Bullet SDK</text>
+
+  <!-- BulletWorld -->
+  <rect x="510" y="122" width="410" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1.8"/>
+  <text x="715" y="138" text-anchor="middle" font-size="10" font-weight="bold" fill="#BF360C">BulletWorld.doPhysics(dt)</text>
+  <text x="715" y="154" text-anchor="middle" font-size="8.5" fill="#E65100">SyncP2B → Simulation → SyncB2P</text>
+
+  <line x1="715" y1="162" x2="715" y2="176" stroke="#E65100" stroke-width="1.5" marker-end="url(#aO)"/>
+
+  <!-- Broadphase -->
+  <rect x="510" y="180" width="410" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="715" y="196" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">宽相（Broadphase）</text>
+  <text x="715" y="212" text-anchor="middle" font-size="8.5" fill="#546E7A">btDbvtBroadphase（AABB树）| btAxisSweep3（SAP）</text>
+
+  <line x1="715" y1="220" x2="715" y2="234" stroke="#E65100" stroke-width="1.5" marker-end="url(#aO)"/>
+
+  <!-- Narrowphase -->
+  <rect x="510" y="238" width="410" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="715" y="254" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">窄相（Narrowphase）</text>
+  <text x="715" y="270" text-anchor="middle" font-size="8.5" fill="#546E7A">btCollisionDispatcher · GJK/EPA 算法</text>
+
+  <line x1="715" y1="278" x2="715" y2="292" stroke="#E65100" stroke-width="1.5" marker-end="url(#aO)"/>
+
+  <!-- Constraint Solver -->
+  <rect x="510" y="296" width="410" height="40" rx="3" fill="#FFE0B2" stroke="#E65100" stroke-width="1.2"/>
+  <text x="715" y="312" text-anchor="middle" font-size="10" font-weight="bold" fill="#BF360C">约束求解器</text>
+  <text x="715" y="328" text-anchor="middle" font-size="8.5" fill="#546E7A">btSequentialImpulseConstraintSolver（SI法）</text>
+
+  <line x1="715" y1="336" x2="715" y2="350" stroke="#E65100" stroke-width="1.5" marker-end="url(#aO)"/>
+
+  <!-- Integration -->
+  <rect x="510" y="354" width="410" height="40" rx="3" fill="#FFFFFF" stroke="#E65100" stroke-width="1"/>
+  <text x="715" y="370" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">数值积分（固定步长）</text>
+  <text x="715" y="386" text-anchor="middle" font-size="8.5" fill="#546E7A">v += F/m·dt  |  x += v·dt  （Symplectic Euler）</text>
+
+  <!-- Shape types -->
+  <rect x="510" y="408" width="410" height="110" rx="3" fill="#F5F5F5" stroke="#90A4AE" stroke-width="0.8"/>
+  <text x="715" y="426" text-anchor="middle" font-size="10" font-weight="bold" fill="#455A64">碰撞形状</text>
+  <line x1="526" y1="432" x2="904" y2="432" stroke="#90A4AE" stroke-width="0.5"/>
+  <text x="526" y="448" font-size="9" fill="#37474F">BulletSphereShape       — btSphereShape</text>
+  <text x="526" y="464" font-size="9" fill="#37474F">BulletBoxShape          — btBoxShape</text>
+  <text x="526" y="480" font-size="9" fill="#37474F">BulletCapsuleShape      — btCapsuleShape</text>
+  <text x="526" y="496" font-size="9" fill="#37474F">BulletTriangleMeshShape — btBvhTriangleMesh（静态）</text>
+  <text x="526" y="512" font-size="9" fill="#37474F">BulletHeightfieldShape  — btHeightfieldTerrain</text>
+
+  <!-- Feature tags -->
+  <rect x="510" y="532" width="190" height="44" rx="3" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="605" y="548" text-anchor="middle" font-size="9" font-weight="bold" fill="#2E7D32">优点</text>
+  <text x="605" y="564" text-anchor="middle" font-size="8.5" fill="#388E3C">完整刚体动力学</text>
+  <text x="605" y="576" text-anchor="middle" font-size="8.5" fill="#388E3C">约束 / 关节 / 软体</text>
+
+  <rect x="730" y="532" width="190" height="44" rx="3" fill="#FFEBEE" stroke="#C62828" stroke-width="1"/>
+  <text x="825" y="548" text-anchor="middle" font-size="9" font-weight="bold" fill="#C62828">局限</text>
+  <text x="825" y="564" text-anchor="middle" font-size="8.5" fill="#B71C1C">外部依赖（Bullet SDK）</text>
+  <text x="825" y="576" text-anchor="middle" font-size="8.5" fill="#B71C1C">配置较复杂</text>
+
+  <!-- Sync note -->
+  <rect x="510" y="590" width="410" height="44" rx="3" fill="#FFFDE7" stroke="#F57F17" stroke-width="0.8"/>
+  <text x="715" y="608" text-anchor="middle" font-size="9" font-weight="bold" fill="#F57F17">变换同步</text>
+  <text x="526" y="624" font-size="8.5" fill="#546E7A">SyncP2B: NodePath.getPos() → btRigidBody.setWorldTransform()</text>
+
+  <!-- ===== Comparison Table ===== -->
+  <rect x="20" y="658" width="920" height="50" rx="4" fill="#ECEFF1" stroke="#455A64" stroke-width="1"/>
+  <!-- Header -->
+  <rect x="20" y="658" width="920" height="20" rx="4" fill="#455A64"/>
+  <text x="130" y="673" text-anchor="middle" font-size="9" font-weight="bold" fill="#FFFFFF">特性</text>
+  <text x="340" y="673" text-anchor="middle" font-size="9" font-weight="bold" fill="#FFFFFF">内置碰撞</text>
+  <text x="540" y="673" text-anchor="middle" font-size="9" font-weight="bold" fill="#FFFFFF">Bullet 物理</text>
+  <text x="720" y="673" text-anchor="middle" font-size="9" font-weight="bold" fill="#FFFFFF">性能开销</text>
+  <text x="870" y="673" text-anchor="middle" font-size="9" font-weight="bold" fill="#FFFFFF">适用场景</text>
+  <!-- Dividers -->
+  <line x1="240" y1="658" x2="240" y2="708" stroke="#B0BEC5" stroke-width="0.8"/>
+  <line x1="440" y1="658" x2="440" y2="708" stroke="#B0BEC5" stroke-width="0.8"/>
+  <line x1="640" y1="658" x2="640" y2="708" stroke="#B0BEC5" stroke-width="0.8"/>
+  <line x1="800" y1="658" x2="800" y2="708" stroke="#B0BEC5" stroke-width="0.8"/>
+  <!-- Row -->
+  <text x="130" y="694" text-anchor="middle" font-size="8.5" fill="#37474F">刚体动力学</text>
+  <text x="340" y="694" text-anchor="middle" font-size="9" fill="#C62828">✗</text>
+  <text x="540" y="694" text-anchor="middle" font-size="9" fill="#2E7D32">✓</text>
+  <text x="720" y="694" text-anchor="middle" font-size="8.5" fill="#37474F">低 / 高</text>
+  <text x="870" y="694" text-anchor="middle" font-size="8.5" fill="#37474F">简单逻辑 / 物理仿真</text>
+
+  <text x="940" y="712" text-anchor="end" font-size="9" fill="#90A4AE">Fig.5 Collision &amp; Physics Systems</text>
+</svg>

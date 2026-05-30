@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000">
+  <defs>
+    <!-- Gradients for different knowledge domains -->
+    <linearGradient id="gradCore" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.9"/>
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:0.9"/>
+    </linearGradient>
+    <linearGradient id="gradRender" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:0.85"/>
+      <stop offset="100%" style="stop-color:#6d28d9;stop-opacity:0.85"/>
+    </linearGradient>
+    <linearGradient id="gradPhysics" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec4899;stop-opacity:0.85"/>
+      <stop offset="100%" style="stop-color:#be185d;stop-opacity:0.85"/>
+    </linearGradient>
+    <linearGradient id="gradAsset" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.85"/>
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:0.85"/>
+    </linearGradient>
+    <linearGradient id="gradFramework" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:0.85"/>
+      <stop offset="100%" style="stop-color:#d97706;stop-opacity:0.85"/>
+    </linearGradient>
+    <linearGradient id="gradTools" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:0.85"/>
+      <stop offset="100%" style="stop-color:#0891b2;stop-opacity:0.85"/>
+    </linearGradient>
+    <linearGradient id="gradAI" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444;stop-opacity:0.85"/>
+      <stop offset="100%" style="stop-color:#dc2626;stop-opacity:0.85"/>
+    </linearGradient>
+    
+    <!-- Drop shadow filter -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+    <filter id="shadowStrong" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1400" height="1000" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="700" y="40" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#1f2937">Panda3D Engine - 知识领域分布图</text>
+  <text x="700" y="70" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#6b7280">Game Engine Architecture & Knowledge Domains</text>
+  
+  <!-- Central Core -->
+  <circle cx="700" cy="500" r="90" fill="url(#gradCore)" filter="url(#shadowStrong)" stroke="#1e3a8a" stroke-width="3"/>
+  <text x="700" y="495" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#ffffff">Panda3D</text>
+  <text x="700" y="515" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" fill="#e0e7ff">3D Game Engine</text>
+  
+  <!-- Knowledge Domain 1: Rendering Pipeline (Top) -->
+  <g id="rendering">
+    <path d="M 700,410 Q 700,300 700,240" stroke="#8b5cf6" stroke-width="2.5" fill="none" opacity="0.6"/>
+    <ellipse cx="700" cy="180" rx="140" ry="55" fill="url(#gradRender)" filter="url(#shadow)" stroke="#6d28d9" stroke-width="2"/>
+    <text x="700" y="178" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle" fill="#ffffff">渲染管线</text>
+    <text x="700" y="195" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#e9d5ff">Rendering Pipeline</text>
+    
+    <!-- Rendering sub-modules -->
+    <rect x="530" y="120" width="85" height="28" rx="4" fill="#ddd6fe" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="572" y="138" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#5b21b6">Scene Graph</text>
+    
+    <rect x="625" y="120" width="70" height="28" rx="4" fill="#ddd6fe" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="660" y="138" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#5b21b6">Culling</text>
+    
+    <rect x="705" y="120" width="80" height="28" rx="4" fill="#ddd6fe" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="745" y="138" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#5b21b6">Shaders</text>
+    
+    <rect x="795" y="120" width="75" height="28" rx="4" fill="#ddd6fe" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="832" y="138" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#5b21b6">Lighting</text>
+  </g>
+  
+  <!-- Knowledge Domain 2: Physics & Collision (Top-Right) -->
+  <g id="physics">
+    <path d="M 770,450 Q 920,380 1020,320" stroke="#ec4899" stroke-width="2.5" fill="none" opacity="0.6"/>
+    <ellipse cx="1100" cy="280" rx="130" ry="50" fill="url(#gradPhysics)" filter="url(#shadow)" stroke="#be185d" stroke-width="2"/>
+    <text x="1100" y="278" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle" fill="#ffffff">物理引擎</text>
+    <text x="1100" y="295" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#fce7f3">Physics Engine</text>
+    
+    <rect x="1000" y="230" width="70" height="26" rx="4" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
+    <text x="1035" y="247" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#9f1239">Bullet</text>
+    
+    <rect x="1080" y="230" width="60" height="26" rx="4" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
+    <text x="1110" y="247" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#9f1239">ODE</text>
+    
+    <rect x="1150" y="230" width="80" height="26" rx="4" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
+    <text x="1190" y="247" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#9f1239">Collision</text>
+  </g>
+  
+  <!-- Knowledge Domain 3: Asset Management (Right) -->
+  <g id="asset">
+    <path d="M 790,500 Q 950,500 1050,500" stroke="#10b981" stroke-width="2.5" fill="none" opacity="0.6"/>
+    <ellipse cx="1150" cy="500" rx="130" ry="50" fill="url(#gradAsset)" filter="url(#shadow)" stroke="#059669" stroke-width="2"/>
+    <text x="1150" y="498" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle" fill="#ffffff">资源管理</text>
+    <text x="1150" y="515" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#d1fae5">Asset Pipeline</text>
+    
+    <rect x="1065" y="450" width="75" height="26" rx="4" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+    <text x="1102" y="467" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#065f46">Textures</text>
+    
+    <rect x="1150" y="450" width="65" height="26" rx="4" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+    <text x="1182" y="467" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#065f46">Models</text>
+    
+    <rect x="1225" y="450" width="60" height="26" rx="4" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+    <text x="1255" y="467" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#065f46">Audio</text>
+  </g>
+  
+  <!-- Knowledge Domain 4: Animation & Character (Bottom-Right) -->
+  <g id="animation">
+    <path d="M 770,550 Q 920,620 1020,680" stroke="#f59e0b" stroke-width="2.5" fill="none" opacity="0.6"/>
+    <ellipse cx="1100" cy="720" rx="130" ry="50" fill="url(#gradFramework)" filter="url(#shadow)" stroke="#d97706" stroke-width="2"/>
+    <text x="1100" y="718" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle" fill="#ffffff">动画系统</text>
+    <text x="1100" y="735" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#fef3c7">Animation System</text>
+    
+    <rect x="1010" y="770" width="75" height="26" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="1047" y="787" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#92400e">Character</text>
+    
+    <rect x="1095" y="770" width="70" height="26" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="1130" y="787" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#92400e">Skeletal</text>
+    
+    <rect x="1175" y="770" width="70" height="26" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="1210" y="787" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#92400e">Interval</text>
+  </g>
+  
+  <!-- Knowledge Domain 5: Python Framework (Bottom) -->
+  <g id="framework">
+    <path d="M 700,590 Q 700,700 700,760" stroke="#06b6d4" stroke-width="2.5" fill="none" opacity="0.6"/>
+    <ellipse cx="700" cy="820" rx="140" ry="55" fill="url(#gradTools)" filter="url(#shadow)" stroke="#0891b2" stroke-width="2"/>
+    <text x="700" y="818" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle" fill="#ffffff">Python框架</text>
+    <text x="700" y="835" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#cffafe">Direct Framework</text>
+    
+    <rect x="540" y="875" width="75" height="26" rx="4" fill="#cffafe" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="577" y="892" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#164e63">ShowBase</text>
+    
+    <rect x="625" y="875" width="60" height="26" rx="4" fill="#cffafe" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="655" y="892" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#164e63">Task</text>
+    
+    <rect x="695" y="875" width="55" height="26" rx="4" fill="#cffafe" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="722" y="892" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#164e63">GUI</text>
+    
+    <rect x="760" y="875" width="55" height="26" rx="4" fill="#cffafe" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="787" y="892" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#164e63">FSM</text>
+    
+    <rect x="825" y="875" width="75" height="26" rx="4" fill="#cffafe" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="862" y="892" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#164e63">Distributed</text>
+  </g>
+  
+  <!-- Knowledge Domain 6: AI & Behavior (Bottom-Left) -->
+  <g id="ai">
+    <path d="M 630,550 Q 480,620 380,680" stroke="#ef4444" stroke-width="2.5" fill="none" opacity="0.6"/>
+    <ellipse cx="300" cy="720" rx="130" ry="50" fill="url(#gradAI)" filter="url(#shadow)" stroke="#dc2626" stroke-width="2"/>
+    <text x="300" y="718" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle" fill="#ffffff">AI行为</text>
+    <text x="300" y="735" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#fee2e2">AI Behaviors</text>
+    
+    <rect x="180" y="770" width="75" height="26" rx="4" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="217" y="787" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#7f1d1d">PathFind</text>
+    
+    <rect x="265" y="770" width="60" height="26" rx="4" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="295" y="787" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#7f1d1d">Seek</text>
+    
+    <rect x="335" y="770" width="60" height="26" rx="4" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="365" y="787" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#7f1d1d">Flock</text>
+  </g>
+  
+  <!-- Knowledge Domain 7: Math & Utilities (Left) -->
+  <g id="math">
+    <path d="M 610,500 Q 450,500 350,500" stroke="#10b981" stroke-width="2.5" fill="none" opacity="0.6"/>
+    <ellipse cx="250" cy="500" rx="130" ry="50" fill="url(#gradAsset)" filter="url(#shadow)" stroke="#059669" stroke-width="2"/>
+    <text x="250" y="498" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle" fill="#ffffff">数学工具</text>
+    <text x="250" y="515" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#d1fae5">Math & Utilities</text>
+    
+    <rect x="155" y="450" width="70" height="26" rx="4" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+    <text x="190" y="467" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#065f46">LinMath</text>
+    
+    <rect x="235" y="450" width="75" height="26" rx="4" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+    <text x="272" y="467" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#065f46">Transform</text>
+    
+    <rect x="320" y="450" width="65" height="26" rx="4" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+    <text x="352" y="467" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#065f46">Pipeline</text>
+  </g>
+  
+  <!-- Knowledge Domain 8: Platform & Display (Top-Left) -->
+  <g id="platform">
+    <path d="M 630,450 Q 480,380 380,320" stroke="#8b5cf6" stroke-width="2.5" fill="none" opacity="0.6"/>
+    <ellipse cx="300" cy="280" rx="130" ry="50" fill="url(#gradRender)" filter="url(#shadow)" stroke="#6d28d9" stroke-width="2"/>
+    <text x="300" y="278" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle" fill="#ffffff">平台支持</text>
+    <text x="300" y="295" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#e9d5ff">Platform Support</text>
+    
+    <rect x="175" y="230" width="65" height="26" rx="4" fill="#ddd6fe" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="207" y="247" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#5b21b6">Windows</text>
+    
+    <rect x="250" y="230" width="60" height="26" rx="4" fill="#ddd6fe" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="280" y="247" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#5b21b6">Linux</text>
+    
+    <rect x="320" y="230" width="60" height="26" rx="4" fill="#ddd6fe" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="350" y="247" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#5b21b6">macOS</text>
+    
+    <rect x="390" y="230" width="65" height="26" rx="4" fill="#ddd6fe" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="422" y="247" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#5b21b6">Android</text>
+  </g>
+  
+  <!-- Legend -->
+  <g id="legend">
+    <rect x="50" y="870" width="280" height="110" rx="6" fill="#f9fafb" stroke="#d1d5db" stroke-width="1.5"/>
+    <text x="190" y="895" font-family="Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#374151">知识领域图例</text>
+    
+    <circle cx="70" cy="920" r="8" fill="url(#gradCore)"/>
+    <text x="90" y="924" font-family="Arial, sans-serif" font-size="11" fill="#4b5563">核心引擎 (Core Engine)</text>
+    
+    <circle cx="70" cy="945" r="8" fill="url(#gradRender)"/>
+    <text x="90" y="949" font-family="Arial, sans-serif" font-size="11" fill="#4b5563">渲染与平台 (Rendering & Platform)</text>
+    
+    <circle cx="70" cy="970" r="8" fill="url(#gradPhysics)"/>
+    <text x="90" y="974" font-family="Arial, sans-serif" font-size="11" fill="#4b5563">物理引擎 (Physics Engine)</text>
+    
+    <circle cx="215" cy="920" r="8" fill="url(#gradAsset)"/>
+    <text x="235" y="924" font-family="Arial, sans-serif" font-size="11" fill="#4b5563">资源与工具 (Assets & Utils)</text>
+    
+    <circle cx="215" cy="945" r="8" fill="url(#gradFramework)"/>
+    <text x="235" y="949" font-family="Arial, sans-serif" font-size="11" fill="#4b5563">动画系统 (Animation)</text>
+    
+    <circle cx="215" cy="970" r="8" fill="url(#gradTools)"/>
+    <text x="235" y="974" font-family="Arial, sans-serif" font-size="11" fill="#4b5563">Python框架 (Framework)</text>
+  </g>
+  
+  <!-- Statistics Box -->
+  <g id="stats">
+    <rect x="1070" y="870" width="280" height="110" rx="6" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/>
+    <text x="1210" y="895" font-family="Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#0c4a6e">引擎统计信息</text>
+    
+    <text x="1090" y="920" font-family="Arial, sans-serif" font-size="11" fill="#075985">• 核心模块: 60+ (panda/src)</text>
+    <text x="1090" y="940" font-family="Arial, sans-serif" font-size="11" fill="#075985">• Python框架: 30+ (direct/src)</text>
+    <text x="1090" y="960" font-family="Arial, sans-serif" font-size="11" fill="#075985">• 支持语言: C++, Python</text>
+    <text x="1090" y="980" font-family="Arial, sans-serif" font-size="11" fill="#075985">• 协议: Modified BSD License</text>
+  </g>
+  
+</svg>
