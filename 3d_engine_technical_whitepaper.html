@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panda3D 3D 引擎技术白皮书</title>
+  <style>
+    :root {
+      --ink: #17202a;
+      --muted: #5c6b73;
+      --line: #d9e1e8;
+      --panel: #ffffff;
+      --soft: #f5f8fb;
+      --brand: #1f7a8c;
+      --brand-dark: #14515d;
+      --accent: #d97706;
+      --good: #16794c;
+      --warn: #a85c00;
+      --shadow: 0 14px 42px rgba(23, 32, 42, .10);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: #eef3f7;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.65;
+      background:
+        linear-gradient(180deg, rgba(31, 122, 140, .12), rgba(245, 248, 251, 0) 460px),
+        var(--soft);
+    }
+
+    a { color: var(--brand-dark); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .shell {
+      width: min(1180px, calc(100vw - 40px));
+      margin: 0 auto;
+    }
+
+    header.hero {
+      min-height: 78vh;
+      display: grid;
+      align-items: center;
+      padding: 56px 0 36px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(23, 32, 42, .08);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(340px, .95fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--brand-dark);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      border: 1px solid rgba(31, 122, 140, .28);
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: rgba(255,255,255,.66);
+    }
+
+    h1 {
+      margin: 24px 0 18px;
+      font-size: clamp(42px, 6vw, 82px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 760px;
+      color: #33444d;
+      font-size: clamp(18px, 2vw, 23px);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .tag {
+      padding: 9px 12px;
+      border: 1px solid rgba(23, 32, 42, .12);
+      border-radius: 999px;
+      background: rgba(255,255,255,.74);
+      color: #344650;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .cover-figure {
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(23, 32, 42, .10);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      min-height: 420px;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+    }
+
+    .cover-figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    nav.toc {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .toc-inner {
+      width: min(1180px, calc(100vw - 40px));
+      margin: 0 auto;
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      padding: 12px 0;
+      white-space: nowrap;
+    }
+
+    .toc a {
+      color: #2b3a42;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    main {
+      padding: 44px 0 76px;
+    }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 8px 30px rgba(23, 32, 42, .055);
+      margin: 0 0 24px;
+      padding: clamp(24px, 4vw, 46px);
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: clamp(28px, 3.4vw, 46px);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      color: #1d313a;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    h4 {
+      margin: 20px 0 8px;
+      font-size: 17px;
+      color: var(--brand-dark);
+    }
+
+    p { margin: 0 0 14px; }
+    .muted { color: var(--muted); }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .metric, .note, .module {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfdff;
+      padding: 18px;
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--brand-dark);
+      font-size: 32px;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+
+    .metric span, .module span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .module b {
+      display: block;
+      margin-bottom: 6px;
+      color: #15262d;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 4px;
+      font-size: 14px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #18313a;
+      background: #edf6f8;
+      font-weight: 750;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .status-ok { color: var(--good); font-weight: 750; }
+    .status-part { color: var(--warn); font-weight: 750; }
+    .status-gap { color: #8a2c2c; font-weight: 750; }
+
+    .diagram {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 10px;
+      align-items: stretch;
+      margin: 18px 0;
+    }
+
+    .box {
+      border: 1px solid rgba(31, 122, 140, .28);
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffffff, #f3fafb);
+      padding: 14px;
+      min-height: 104px;
+    }
+
+    .box b {
+      display: block;
+      color: var(--brand-dark);
+      margin-bottom: 6px;
+    }
+
+    .box small {
+      color: var(--muted);
+      display: block;
+      line-height: 1.45;
+    }
+
+    .figure {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #fbfdff;
+      margin: 20px 0;
+    }
+
+    .figure img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    pre {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #101820;
+      color: #f2f7f8;
+      padding: 16px;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+
+    .callout {
+      border-left: 5px solid var(--accent);
+      padding: 16px 18px;
+      background: #fff8ed;
+      border-radius: 0 8px 8px 0;
+      margin: 18px 0;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .phase {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #fbfdff;
+    }
+
+    .phase b {
+      color: var(--brand-dark);
+    }
+
+    footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 0 0 48px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid, .grid.cols-2, .grid.cols-3, .grid.cols-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .diagram {
+        grid-template-columns: 1fr;
+      }
+
+      .phase {
+        grid-template-columns: 1fr;
+      }
+
+      header.hero {
+        min-height: auto;
+      }
+    }
+
+    @media print {
+      nav.toc { position: static; }
+      body { background: white; }
+      section { box-shadow: none; page-break-inside: avoid; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <div class="eyebrow">Panda3D 1.11.0 · 3D Engine White Paper</div>
+        <h1>Panda3D 3D 引擎技术白皮书</h1>
+        <p class="lead">面向工程团队、课程项目与独立游戏开发者的完整技术报告：从 Panda3D 引擎内核、渲染管线、场景图、物理系统、Python 绑定机制，到 <strong>my_game</strong> 实战项目的架构设计、能力覆盖与演进路线。</p>
+        <div class="meta-row">
+          <span class="tag">生成日期：2026-05-31</span>
+          <span class="tag">案例版本：my_game v0.7.0</span>
+          <span class="tag">运行栈：Python 3.13 + macOS 12+</span>
+          <span class="tag">许可证：Modified BSD</span>
+        </div>
+      </div>
+      <div class="cover-figure">
+        <img src="panda3d_knowledge_map.svg" alt="Panda3D 技术知识图谱">
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="toc-inner">
+      <a href="#summary">执行摘要</a>
+      <a href="#engine">引擎定位</a>
+      <a href="#architecture">核心架构</a>
+      <a href="#rendering">渲染管线</a>
+      <a href="#subsystems">关键子系统</a>
+      <a href="#case">实战案例</a>
+      <a href="#coverage">能力覆盖</a>
+      <a href="#roadmap">路线图</a>
+      <a href="#conclusion">结论</a>
+    </div>
+  </nav>
+
+  <main class="shell">
+    <section id="summary">
+      <h2>执行摘要</h2>
+      <p>Panda3D 是一个以 C++ 为底层核心、以 Python 作为高层开发接口的开源 3D 游戏引擎与实时图形框架。它的工程特点不是追求“一键式编辑器生态”，而是提供稳定、可脚本化、可扩展的场景图、渲染、输入、音频、物理、动画与资源加载能力，适合教学、仿真、原型验证、独立游戏与研究型可视化项目。</p>
+      <p>本白皮书同时覆盖两个层次：第一，解析 Panda3D 引擎本身的核心技术结构；第二，以当前仓库中的 <code>my_game</code> 项目为案例，说明如何把引擎能力落到真实应用，包括阴影、粒子、雾效、天空盒、后处理、日夜循环、NPC、存档、小地图与状态机等系统。</p>
+
+      <div class="grid cols-4">
+        <div class="metric"><strong>1.11.0</strong><span>Panda3D 当前开发分支版本信息</span></div>
+        <div class="metric"><strong>95</strong><span>案例路线图梳理的核心引擎能力项</span></div>
+        <div class="metric"><strong>42%</strong><span>my_game 已实现或部分实现覆盖率</span></div>
+        <div class="metric"><strong>24</strong><span>my_game/src 下的模块化子系统</span></div>
+      </div>
+
+      <div class="callout">
+        <strong>核心判断：</strong>Panda3D 的优势在于“低层能力开放 + Python 开发效率高 + 跨平台构建链成熟”。它更像一个可编程图形与游戏系统平台，而不是以可视化编辑器为中心的商业引擎。
+      </div>
+    </section>
+
+    <section id="engine">
+      <h2>引擎定位与设计哲学</h2>
+      <p>Panda3D 将底层性能敏感部分放在 C++ 中实现，并通过 Python API 提供高层可编程接口。开发者通常继承 <code>ShowBase</code> 作为应用入口，通过 <code>NodePath</code> 操作场景图，通过任务系统驱动逐帧更新，通过事件系统绑定输入与交互。</p>
+
+      <div class="grid cols-3">
+        <div class="module">
+          <b>面向程序员的 3D 框架</b>
+          <span>强调代码控制、运行时组合和系统可扩展性，适合快速原型与教学。</span>
+        </div>
+        <div class="module">
+          <b>跨平台图形抽象</b>
+          <span>通过 Graphics State Guardian 抽象 OpenGL、OpenGL ES、DirectX 9、WebGL 等后端。</span>
+        </div>
+        <div class="module">
+          <b>Python 与 C++ 双栈</b>
+          <span>核心性能由 C++ 支撑，高层逻辑由 Python 编写，兼顾效率与迭代速度。</span>
+        </div>
+      </div>
+
+      <h3>适用场景</h3>
+      <table>
+        <thead><tr><th>场景</th><th>适配度</th><th>原因</th></tr></thead>
+        <tbody>
+          <tr><td>独立游戏 / 课程项目</td><td class="status-ok">高</td><td>Python 入口低，调试快，场景图、碰撞、音频、UI 能力完整。</td></tr>
+          <tr><td>仿真与可视化</td><td class="status-ok">高</td><td>可精细控制渲染循环、相机、模型加载、物理与数据驱动更新。</td></tr>
+          <tr><td>大型商业 3A 项目</td><td class="status-part">中</td><td>需要自建工具链、编辑器、资源管线和团队协作规范。</td></tr>
+          <tr><td>纯美术驱动项目</td><td class="status-part">中</td><td>缺少 Unity/Unreal 式一体化编辑器体验，但脚本灵活性更高。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="architecture">
+      <h2>核心架构</h2>
+      <p>Panda3D 的源码组织可理解为三层：<code>dtool</code> 提供基础设施，<code>panda</code> 实现引擎核心，<code>direct</code> 提供 Python 高层框架。其上再叠加应用项目，例如本仓库的 <code>my_game</code>。</p>
+
+      <div class="diagram" aria-label="Panda3D architecture diagram">
+        <div class="box"><b>应用层</b><small>ShowBase 子类、游戏状态、玩法逻辑、UI、存档</small></div>
+        <div class="box"><b>direct</b><small>Python 框架：任务、事件、FSM、Actor、Interval、DirectGUI</small></div>
+        <div class="box"><b>panda</b><small>引擎核心：场景图、渲染、碰撞、音频、文本、资源</small></div>
+        <div class="box"><b>dtool</b><small>配置、内存、类型系统、Interrogate 绑定生成</small></div>
+        <div class="box"><b>平台后端</b><small>OpenGL、GLES、DirectX、窗口系统、音频设备、文件系统</small></div>
+      </div>
+
+      <h3>源码树职责</h3>
+      <table>
+        <thead><tr><th>源码树</th><th>职责</th><th>代表模块</th></tr></thead>
+        <tbody>
+          <tr><td><code>dtool</code></td><td>基础类型、配置变量、构建工具、C++/Python 绑定基础。</td><td>Interrogate、PRC 配置、内存与类型工具。</td></tr>
+          <tr><td><code>panda</code></td><td>引擎核心功能，包括图形对象、场景图、窗口、碰撞、音频、文本、物理集成。</td><td><code>pgraph</code>、<code>display</code>、<code>gobj</code>、<code>collide</code>、<code>bullet</code>。</td></tr>
+          <tr><td><code>direct</code></td><td>Python 高层 API，降低游戏逻辑、UI、动画与状态管理开发成本。</td><td><code>showbase</code>、<code>task</code>、<code>actor</code>、<code>interval</code>、<code>fsm</code>、<code>gui</code>。</td></tr>
+        </tbody>
+      </table>
+
+      <h3>运行时主循环</h3>
+      <pre><code>ShowBase 初始化窗口、摄像机、loader、taskMgr、messenger
+  -> 加载 PRC 配置与资源路径
+  -> 构建 render 场景图
+  -> 注册 accept() 输入事件
+  -> taskMgr.add(update) 驱动逐帧逻辑
+  -> GraphicsEngine 执行剔除、状态排序与绘制提交</code></pre>
+    </section>
+
+    <section id="rendering">
+      <h2>渲染管线</h2>
+      <p>Panda3D 的渲染核心围绕场景图遍历、状态收集、可见性判断和图形后端提交展开。应用通过 <code>NodePath</code> 修改对象位置、材质、纹理、光照与渲染属性；引擎在每帧将这些状态转化为面向图形 API 的绘制命令。</p>
+
+      <div class="figure">
+        <img src="my_game/figures/fig2_render_pipeline.svg" alt="Panda3D 渲染管线示意图">
+        <div class="caption">图 1：渲染管线示意。场景图状态在剔除与排序后进入图形后端。</div>
+      </div>
+
+      <h3>关键技术点</h3>
+      <div class="grid cols-2">
+        <div class="module">
+          <b>场景图与状态继承</b>
+          <span>节点可以继承父级变换、渲染状态与标签，使复杂场景保持层级清晰。</span>
+        </div>
+        <div class="module">
+          <b>Graphics State Guardian</b>
+          <span>GSG 将 Panda3D 的渲染状态映射到具体后端，隔离平台差异。</span>
+        </div>
+        <div class="module">
+          <b>自动 Shader</b>
+          <span><code>render.setShaderAuto()</code> 让常见光照、阴影、材质组合无需手写 GLSL。</span>
+        </div>
+        <div class="module">
+          <b>多 DisplayRegion</b>
+          <span>一个窗口内可划分多个渲染区域，适合小地图、分屏或调试视图。</span>
+        </div>
+      </div>
+
+      <h3>与现代商业引擎的差异</h3>
+      <p>Panda3D 没有默认绑定一种固定的 PBR 工作流，也没有强制使用编辑器组织工程。它的渲染能力更偏“可组合底座”：你可以使用自动 Shader 快速实现常规效果，也可以逐步引入自定义 GLSL、RTT、多通道渲染、地形、水面、后处理和实例化方案。</p>
+    </section>
+
+    <section id="subsystems">
+      <h2>关键子系统解析</h2>
+
+      <h3>场景图</h3>
+      <p>场景图是 Panda3D 的核心抽象。<code>NodePath</code> 既是节点句柄，也是变换、挂载、查找和状态设置的统一入口。应用通过 <code>reparentTo()</code> 建立层级，通过 <code>setPos()</code>、<code>setHpr()</code>、<code>setScale()</code> 控制空间关系。</p>
+
+      <div class="figure">
+        <img src="my_game/figures/fig3_scene_graph.svg" alt="Panda3D 场景图示意图">
+        <div class="caption">图 2：场景图层级关系。逻辑对象、渲染对象、碰撞对象可以按职责挂载。</div>
+      </div>
+
+      <h3>物理与碰撞</h3>
+      <p>Panda3D 同时提供原生碰撞系统与第三方物理集成。原生碰撞适合触发区域、拾取、简单事件；Bullet 适合刚体、重力、射线检测与调试可视化。案例项目采用“Bullet 负责物理，Panda3D 原生碰撞负责触发区域”的组合策略。</p>
+
+      <div class="figure">
+        <img src="my_game/figures/fig5_collision_physics.svg" alt="Panda3D 碰撞与物理系统示意图">
+        <div class="caption">图 3：Bullet 与原生碰撞系统可以并行存在，分别服务不同交互需求。</div>
+      </div>
+
+      <h3>动画系统</h3>
+      <p>动画能力分为两类：一类是 Actor 骨骼动画，服务角色模型；另一类是 Interval 动画，服务程序化插值、过渡、序列与并行动画。对游戏原型而言，Interval 是低成本构建交互反馈的关键工具。</p>
+
+      <div class="figure">
+        <img src="my_game/figures/fig4_animation.svg" alt="Panda3D 动画系统示意图">
+        <div class="caption">图 4：Actor 与 Interval 分别覆盖角色动画和通用插值动画。</div>
+      </div>
+
+      <h3>GUI、输入与任务系统</h3>
+      <p><code>DirectGUI</code> 提供按钮、滑块、标签、输入框等基础控件；<code>accept()</code> 与 <code>messenger</code> 构成事件机制；<code>taskMgr</code> 是逐帧更新、延迟执行和系统调度的核心。三者合在一起，可以在纯 Python 中快速搭建完整交互应用。</p>
+    </section>
+
+    <section id="case">
+      <h2>实战案例：my_game 技术实现</h2>
+      <p><code>my_game</code> 是一个基于 Panda3D 1.11.0 与 Python 3.13 的 macOS 游戏开发模板。它不是单点 Demo，而是把多个引擎能力整合为可运行的小游戏骨架：玩家控制、物理、相机、拾取、NPC、UI、存档、渲染效果与调试工具都被拆成独立模块。</p>
+
+      <div class="figure">
+        <img src="my_game/figures/fig1_architecture.svg" alt="my_game 架构图">
+        <div class="caption">图 5：my_game 模块架构。主入口组合各系统，更新循环负责调度。</div>
+      </div>
+
+      <h3>目录结构</h3>
+      <pre><code>my_game/
+  main.py                 # ShowBase 派生入口，组合各子系统
+  config.prc              # Panda3D 运行时配置
+  src/
+    physics.py            # BulletWorld、刚体、调试渲染
+    player.py             # 移动、跳跃、经验值
+    camera.py             # 第三人称、第一人称、轨道相机
+    shadows.py            # 实时阴影与自动 Shader
+    particles_fx.py       # 跳跃尘土、拾取星光、碰撞火花
+    fog.py                # 线性雾、指数雾
+    skybox.py             # 程序化天空球
+    post_processing.py    # Bloom、AO、模糊、HDR
+    day_night.py          # 日夜循环与光照联动
+    npc.py                # 巡逻、追逐、返回状态
+    save_load.py          # JSON 存档
+    minimap.py            # DisplayRegion 小地图
+    game_fsm.py           # Menu、Playing、Paused、GameOver</code></pre>
+
+      <h3>系统协作方式</h3>
+      <table>
+        <thead><tr><th>系统</th><th>核心职责</th><th>代表能力</th></tr></thead>
+        <tbody>
+          <tr><td>PhysicsManager</td><td>创建 BulletWorld、设置重力、管理刚体与调试节点。</td><td>刚体、碰撞形状、射线检测、调试绘制。</td></tr>
+          <tr><td>PlayerController</td><td>处理输入状态、玩家移动、跳跃、地面检测与经验值。</td><td>WASD、空格跳跃、Bullet rayTestClosest。</td></tr>
+          <tr><td>OrbitCamera</td><td>在第三人称、第一人称与轨道相机之间切换。</td><td>相机跟随、右键旋转、滚轮缩放。</td></tr>
+          <tr><td>Rendering Managers</td><td>阴影、雾效、天空盒、后处理、日夜循环。</td><td>实时阴影、Bloom、AO、颜色渐变。</td></tr>
+          <tr><td>Gameplay Managers</td><td>NPC、碰撞触发、可拾取物、存档、小地图、FSM。</td><td>巡逻 AI、JSON 存档、DisplayRegion。</td></tr>
+        </tbody>
+      </table>
+
+      <h3>主循环设计</h3>
+      <p>案例项目采用集中式更新循环：每帧更新玩家、物理世界、可拾取物、碰撞检测、NPC、对话框、日夜循环、相机和 HUD。这种结构对教学与中小型项目非常直观；当项目扩大后，可进一步拆分为事件驱动或 ECS 风格的数据更新管线。</p>
+    </section>
+
+    <section id="coverage">
+      <h2>能力覆盖分析</h2>
+      <p>根据 <code>my_game/ROADMAP.md</code> 的功能表，项目对 Panda3D 核心能力完成了 42% 左右的覆盖。已经落地的能力集中在场景图、基础渲染、Bullet 物理、原生碰撞、DirectGUI、输入、粒子、后处理、任务事件和文本字体等方向。</p>
+
+      <div class="figure">
+        <img src="my_game/engine_coverage_academic.svg" alt="Panda3D 引擎能力覆盖图">
+        <div class="caption">图 6：Panda3D 引擎能力覆盖分析。图表来自当前仓库的 my_game 资料。</div>
+      </div>
+
+      <table>
+        <thead><tr><th>能力域</th><th>当前状态</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>场景图与基础渲染</td><td class="status-ok">已覆盖</td><td>NodePath、模型加载、纹理、雾效、程序化几何体、自动 Shader。</td></tr>
+          <tr><td>光照与阴影</td><td class="status-part">部分覆盖</td><td>环境光、平行光、阴影贴图已完成；点光源、聚光灯、法线贴图待扩展。</td></tr>
+          <tr><td>动画</td><td class="status-part">部分覆盖</td><td>Actor 与 Interval 已使用；动画混合、IK、运动拖尾未实现。</td></tr>
+          <tr><td>物理与碰撞</td><td class="status-part">部分覆盖</td><td>Bullet 刚体、形状、射线、调试渲染已完成；约束、软体、车辆未实现。</td></tr>
+          <tr><td>GUI 与交互</td><td class="status-ok">已覆盖核心</td><td>按钮、面板、滑块、标签、HUD、对话框与快捷键体系完善。</td></tr>
+          <tr><td>高级渲染</td><td class="status-part">部分覆盖</td><td>Bloom、AO、HDR 等 CommonFilters 已使用；RTT、自定义 Shader、DOF、水面待实现。</td></tr>
+          <tr><td>网络与分布式</td><td class="status-gap">未覆盖</td><td>DistributedObject、客户端/服务器、原生网络尚未进入案例范围。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="roadmap">
+      <h2>技术路线图</h2>
+      <p>下一阶段不宜盲目堆功能，而应围绕“渲染质量、内容规模、工程稳定性、可发布性”四条线推进。下面给出一个更适合从模板走向完整项目的演进顺序。</p>
+
+      <div class="timeline">
+        <div class="phase">
+          <b>Phase A<br>渲染深化</b>
+          <div>加入自定义 GLSL Shader、法线贴图、Render-to-Texture、景深、水面或屏幕后处理链。目标是证明项目可以脱离 CommonFilters，掌握可控渲染管线。</div>
+        </div>
+        <div class="phase">
+          <b>Phase B<br>世界规模</b>
+          <div>引入 LODNode、实例化渲染、遮挡剔除、地形系统与资源分区加载。目标是从小型演示场景扩展到可探索空间。</div>
+        </div>
+        <div class="phase">
+          <b>Phase C<br>玩法系统</b>
+          <div>完善 NPC 行为树或状态机层级、任务系统、背包、交互物、对话脚本与持久化数据模型。目标是让项目从技术展示变成可玩的游戏。</div>
+        </div>
+        <div class="phase">
+          <b>Phase D<br>发布工程</b>
+          <div>规范日志、错误处理、资源校验、自动化打包、macOS 签名、公证、性能基准与回归测试。目标是让项目具备稳定分发能力。</div>
+        </div>
+      </div>
+
+      <h3>风险与约束</h3>
+      <table>
+        <thead><tr><th>风险</th><th>影响</th><th>建议</th></tr></thead>
+        <tbody>
+          <tr><td>资源管线不统一</td><td>模型、贴图、字体、音频在不同机器上表现不一致。</td><td>约定资源格式、目录、命名、压缩策略和加载错误处理。</td></tr>
+          <tr><td>渲染效果过度依赖默认滤镜</td><td>后续视觉风格难以差异化。</td><td>逐步引入自定义 Shader 和 RTT，建立最小可控后处理链。</td></tr>
+          <tr><td>主循环逐渐臃肿</td><td>系统耦合上升，调试困难。</td><td>为 Manager 定义生命周期接口：init、update、pause、serialize、destroy。</td></tr>
+          <tr><td>缺少性能预算</td><td>粒子、阴影、NPC 与后处理叠加后帧率不稳定。</td><td>建立 FPS、draw call、节点数量、粒子数量、物理步进时间的基准。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="conclusion">
+      <h2>结论</h2>
+      <p>Panda3D 是一个成熟、开放、工程感很强的 3D 引擎。它的最大价值不在于替代商业编辑器，而在于把实时 3D 应用所需的底层能力以可编程方式交给开发者。对于需要快速迭代、深入理解图形与游戏系统、或构建定制化仿真/可视化应用的团队，Panda3D 仍然是一套值得投入的技术栈。</p>
+      <p><code>my_game</code> 案例已经证明：在较少依赖外部工具的情况下，Panda3D 可以支撑完整的游戏原型工程。下一步的关键不是再添加零散特性，而是把现有能力沉淀为稳定架构：统一资源管线、明确系统生命周期、补齐测试与性能基准，并在渲染与内容规模上继续深入。</p>
+
+      <div class="grid cols-3">
+        <div class="note"><strong>工程价值</strong><br>Python 开发效率高，C++ 底层可靠，适合快速构建可运行的 3D 系统。</div>
+        <div class="note"><strong>学习价值</strong><br>场景图、渲染管线、物理、碰撞、任务系统都暴露得足够清晰。</div>
+        <div class="note"><strong>演进价值</strong><br>可从教学模板逐步扩展为真实项目，而无需一次性引入重型编辑器生态。</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">
+      <p>本白皮书基于当前仓库源码、README、ROADMAP 与图表资料生成。文件可离线打开；图表引用仓库内相对路径。</p>
+    </div>
+  </footer>
+</body>
+</html>
